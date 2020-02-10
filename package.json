@@ -1,0 +1,22 @@
+{
+  "name": "lgsw",
+  "description": "A logic gate sandbox.",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "fullstack-system dev",
+    "dev": "fullstack-system dev",
+    "build": "fullstack-system build",
+    "clean": "fullstack-system clean",
+    "production": "fullstack-system production"
+  },
+  "dependencies": {
+    "easy-web-input": "^1.0.0",
+    "fullstack-system": "^2.5.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "node-sass": "^4.13.1",
+    "typescript": "^3.5.3"
+  }
+}
