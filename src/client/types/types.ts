@@ -1,6 +1,15 @@
-import Module from './Moudle';
+import Module from './Module';
 
-export type ModuleString = 'switch';
+export type ModuleString = 'switch' | 'light';
+
+interface IOAcceptance {
+  accept: boolean;
+  count: number;
+}
+export interface ModuleAcceptance {
+  input: IOAcceptance;
+  output: IOAcceptance;
+}
 
 /** The game state. */
 export interface GameState {
