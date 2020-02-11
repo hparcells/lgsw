@@ -1,18 +1,16 @@
 import { updateInputManager, mouse, keyboard } from 'easy-web-input';
 
-import { GameState } from '../types';
+import { GameState } from '../types/types';
 
-export const GRID_SIZE = 64;
+import SwitchMoudle from './modules/SwitchModule';
 
 export let canvas: HTMLCanvasElement;
 export let ctx: CanvasRenderingContext2D;
 
-let state: GameState = {
-  objects: []
+export const state: GameState = {
+  objects: [],
+  gridSize: 64
 }
-
-let lastClick = { x: 0, y: 0 };
-let previousCameraPosition = { x: 0, y: 0 };
 
 /** The game loop. */
 function gameLoop() {
@@ -26,11 +24,21 @@ function gameLoop() {
     ctx.canvas.height = window.innerHeight;
   });
 
+  // Check for zoom input.
+  if(keyboard.NumpadAdd) {
+    state.gridSize++;
+  }
+  if(keyboard.NumpadSubtract) {
+    state.gridSize--;
+  }
+
+  ctx.save();
+  
   // Draw the grid.
   // For each row.
-  for(let i = 0; i < Math.ceil(canvas.height / GRID_SIZE); i++) {
+  for(let i = 0; i < Math.ceil(canvas.height / state.gridSize); i++) {
     // For each column.
-    for(let j = 0; j < Math.ceil(canvas.width / GRID_SIZE); j++) {
+    for(let j = 0; j < Math.ceil(canvas.width / state.gridSize); j++) {
       if(i % 2 === 0 && j % 2 === 0) {
         ctx.fillStyle = '#757575';
       }else if(i % 2 === 0) {
@@ -43,36 +51,48 @@ function gameLoop() {
       
       // Draw something/
       ctx.fillRect(
-        j * GRID_SIZE,
-        i * GRID_SIZE,
-        GRID_SIZE,
-        GRID_SIZE
+        j * state.gridSize,
+        i * state.gridSize,
+        state.gridSize,
+        state.gridSize
       );
     }
   }
   
   // Draw the hovered tile.
   // For each row.
-  for(let i = 0; i < Math.ceil(canvas.height / GRID_SIZE * 1.5); i++) {
+  for(let i = 0; i < Math.ceil(canvas.height / state.gridSize * 1.5); i++) {
     // For each column.
-    for(let j = 0; j < Math.ceil(canvas.width / GRID_SIZE) * 1.5; j++) {
+    for(let j = 0; j < Math.ceil(canvas.width / state.gridSize) * 1.5; j++) {
       if(
-        mouse.x >= j * GRID_SIZE
-        && mouse.x <= j * GRID_SIZE + GRID_SIZE
-        && mouse.y >= i * GRID_SIZE
-        && mouse.y <= i * GRID_SIZE + GRID_SIZE
+        mouse.x >= j * state.gridSize
+        && mouse.x <= j * state.gridSize + state.gridSize
+        && mouse.y >= i * state.gridSize
+        && mouse.y <= i * state.gridSize + state.gridSize
       ) {
         ctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
 
         ctx.fillRect(
-          j * GRID_SIZE,
-          i * GRID_SIZE,
-          GRID_SIZE,
-          GRID_SIZE
+          j * state.gridSize,
+          i * state.gridSize,
+          state.gridSize,
+          state.gridSize
         );
       }
     }
   }
+
+  // TODO: Remove this.
+  if(mouse.leftPressed) {
+    state.objects.push(new SwitchMoudle(1, 1));
+  }
+
+  // Render all the objects.
+  state.objects.forEach((object) => {
+    return object.render();
+  });
+
+  ctx.restore();
 
   // Update input.
   updateInputManager();

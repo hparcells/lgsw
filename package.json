@@ -11,12 +11,18 @@
   },
   "dependencies": {
     "easy-web-input": "^1.0.0",
-    "fullstack-system": "^2.5.0",
+    "fullstack-system": "^2.8.2",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@types/uuid": "^3.4.7",
     "node-sass": "^4.13.1",
     "typescript": "^3.5.3"
+  },
+  "fullstack-system": {
+    "autoHotLoader": false
   }
 }
