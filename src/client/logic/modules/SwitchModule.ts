@@ -25,18 +25,15 @@ class SwitchModule extends Module {
   }
 
   render() {
-    ctx.save();
-    ctx.translate(this.x * state.gridSize, this.y * state.gridSize);
-
     // The background.
     ctx.fillStyle = '#B4B8B8';
-    ctx.fillRect(0, 0, state.gridSize, state.gridSize);
+    ctx.fillRect(this.x * state.gridSize, this.y * state.gridSize, state.gridSize, state.gridSize);
     
     // Switch background.
     ctx.fillStyle = '#6B6B6B';
     ctx.fillRect(
-      (state.gridSize / 2) - ((state.gridSize / 3) / 2),
-      (state.gridSize / 2) - ((state.gridSize / 1.25) / 2),
+      this.x * state.gridSize + (state.gridSize / 2) - ((state.gridSize / 3) / 2),
+      this.y * state.gridSize + (state.gridSize / 2) - ((state.gridSize / 1.25) / 2),
       state.gridSize / 3,
       state.gridSize / 1.25
     );
@@ -48,14 +45,13 @@ class SwitchModule extends Module {
       ctx.fillStyle = '#FF0000';
     }
     ctx.fillRect(
-      (state.gridSize / 2) - ((state.gridSize / 3) / 2),
-      this.on
+      this.x * state.gridSize + (state.gridSize / 2) - ((state.gridSize / 3) / 2),
+      this.y * state.gridSize + (this.on
         ? (state.gridSize / 2) - ((state.gridSize / 1.25) / 2)
-        : ((state.gridSize / 2) - ((state.gridSize / 1.25) / 2)) + state.gridSize / 2,
+        : ((state.gridSize / 2) - ((state.gridSize / 1.25) / 2)) + state.gridSize / 2),
       state.gridSize / 3,
       state.gridSize / 3
     );
-    ctx.restore();
   }
 
   onClick() {

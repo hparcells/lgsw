@@ -6,21 +6,20 @@ import { state } from '../logic/logic';
 export function getMouseGridPos(x: number = mouse.x, y: number = mouse.y) {
   const mousePos = { x: 0, y: 0 };
 
-  // For each row.
-  for(let i = 0; i < Math.ceil(canvas.height / state.gridSize); i++) {
-    // For each column.
-    for(let j = 0; j < Math.ceil(canvas.width / state.gridSize); j++) {
-      if(
-        x >= j * state.gridSize
-        && x <= j * state.gridSize + state.gridSize
-        && y >= i * state.gridSize
-        && y <= i * state.gridSize + state.gridSize
-      ) {
-        mousePos.x = j;
-        mousePos.y = i;
-      }
-    }
-  }
+  let cx = state.camera.x * -state.gridSize * state.camera.scale + (canvas.width / 2);
+  let cy = state.camera.y * -state.gridSize * state.camera.scale + (canvas.height / 2);
+
+  // Find X and Y.
+  mousePos.x = (
+    Math.floor((x - cx) / (state.gridSize * state.camera.scale)) * (state.gridSize * state.camera.scale)
+  ) / state.camera.scale;
+  mousePos.y = (
+    Math.floor((y - cy) / (state.gridSize * state.camera.scale)) * (state.gridSize * state.camera.scale)
+  ) / state.camera.scale;
+
+  // Convert to tiles.
+  mousePos.x = mousePos.x / state.gridSize;
+  mousePos.y = mousePos.y / state.gridSize;
 
   return mousePos;
 }

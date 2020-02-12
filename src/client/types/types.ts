@@ -6,7 +6,11 @@ export interface MouseCoordinates {
   x: number;
   y: number;
 }
-
+interface Camera {
+  x: number;
+  y: number;
+  scale: number;
+}
 interface IOAcceptance {
   accept: boolean;
   count: number;
@@ -18,9 +22,10 @@ export interface ModuleAcceptance {
 
 /** The game state. */
 export interface GameState {
+  camera: Camera
   /** All the game objects on the grid. */
   modules: Module[];
-  /** The size of each of the tiles. */
+  /** The size of each of the tiles. Should not change. */
   gridSize: 64;
   // TODO: Figure this out.
   /** The moudle on the cursor. */

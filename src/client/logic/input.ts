@@ -8,23 +8,37 @@ import { disableWiring, toggleWiring, isWiring } from './wiring';
 import { MouseCoordinates } from '../types/types';
 
 import { state } from './logic';
-import { ctx } from './canvas';
 
 import SwitchModule from './modules/SwitchModule';
 import LightModule from './modules/LightModule';
 
-export let startClick = { x: 0, y: 0 };
 export let mousePos: MouseCoordinates;
 
 export default function doInput() {
   mousePos = getMouseGridPos();
 
+  if(keyboard.ArrowUp) {
+    state.camera.y -= 0.5;
+  }
+  if(keyboard.ArrowRight) {
+    state.camera.x += 0.5;
+  }
+  if(keyboard.ArrowDown) {
+    state.camera.y += 0.5;
+  }
+  if(keyboard.ArrowLeft) {
+    state.camera.x -= 0.5;
+  }
+
   // Check for zoom input.
   if(keyboard.NumpadAdd) {
-    state.gridSize++;
+    if(state.camera.scale < 4) {
+      state.camera.scale += 0.05;
+    }
   }
   if(keyboard.NumpadSubtract) {
-    state.gridSize--;
+    if(state.camera.scale > 0.25)
+    state.camera.scale -= 0.05;
   }
 
   // Check for deselect input.
@@ -72,9 +86,6 @@ export default function doInput() {
       });
       interactedModule?.onClick();
     }
-
-    startClick.x = mouse.x;
-    startClick.y = mouse.y;
   }
 
   // Check for right click.
@@ -105,49 +116,6 @@ export default function doInput() {
       });
 
       state.modules = remove(state.modules, moduleToDelete);
-    }
-  }
-
-  if(mouse.left) {
-    if(isWiring) {
-      ctx.strokeStyle = '#FF0000';
-      ctx.beginPath();
-      ctx.moveTo(startClick.x, startClick.y);
-      ctx.lineTo(mouse.x, mouse.y);
-      ctx.lineWidth = 3 * (state.gridSize / 64);
-      ctx.stroke();
-    }
-  }
-  if(mouse.leftReleased && isWiring) {
-    const startingMousePos = getMouseGridPos(startClick.x, startClick.y);
-
-    const startingModule = state.modules.find((moudle) => {
-      return moudle.x === startingMousePos.x && moudle.y === startingMousePos.y;
-    });
-    const endingModule = state.modules.find((moudle) => {
-      return moudle.x === mousePos.x && moudle.y === mousePos.y;
-    });
-
-    // If the IO is right.
-    if(
-      (startingModule && endingModule)
-      && (startingModule.accepts.output.accept && endingModule.accepts.input.accept)
-    ) {
-      // If they are already connected.
-      if(startingModule.outputs.includes(endingModule.id) && endingModule.inputs.includes(startingModule.id)) {
-        startingModule.outputs = remove(startingModule.outputs, endingModule.id);
-        endingModule.inputs = remove(endingModule.inputs, startingModule.id);
-      }else if(
-      // If there is room for another conenction.
-        startingModule.outputs.length + 1 < startingModule.accepts.output.count
-        && endingModule.inputs.length + 1 < endingModule.accepts.input.count
-      ) {
-        startingModule.outputs.push(endingModule.id);
-        endingModule.inputs.push(startingModule.id);
-
-      }
-
-      endingModule.doLogic();
     }
   }
 }
