@@ -19,5 +19,5 @@ export interface GameState {
   gridSize: 64;
   // TODO: Figure this out.
   /** The moudle on the cursor. */
-  moudleInHand: any | null;
+  moduleInHand: any | null;
 }

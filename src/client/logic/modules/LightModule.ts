@@ -1,6 +1,7 @@
 import Module from '../../types/Module';
 
-import { ctx, state } from '../logic';
+import { ctx } from '../canvas';
+import { state } from '../logic';
 import { ModuleAcceptance } from '../../types/types';
 
 class LightModule extends Module {

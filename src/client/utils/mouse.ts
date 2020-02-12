@@ -1,6 +1,7 @@
 import { mouse } from 'easy-web-input';
 
-import { canvas, state } from '../logic/logic';
+import { canvas } from '../logic/canvas';
+import { state } from '../logic/logic';
 
 export function getMouseGridPos(x: number = mouse.x, y: number = mouse.y) {
   const mousePos = { x: 0, y: 0 };

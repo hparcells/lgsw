@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { setupCanvas } from '../logic/logic';
+import { setupCanvas } from '../logic/canvas';
 
 function App() {
   useEffect(() => {

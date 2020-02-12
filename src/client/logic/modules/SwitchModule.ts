@@ -1,8 +1,11 @@
 import Module from '../../types/Module';
 
+import updateModules from '../update';
+
 import { ModuleAcceptance } from '../../types/types';
 
-import { ctx, state, updateModules } from '../logic';
+import { ctx } from '../canvas';
+import { state } from '../logic';
 
 class SwitchModule extends Module {
   accepts: ModuleAcceptance = {
