@@ -6,6 +6,8 @@ import { getMouseGridPos } from '../utils/mouse';
 import { disableWiring, toggleWiring, isWiring } from './wiring';
 import updateModules from './update';
 
+import { MouseCoordinates } from '../types/types';
+
 import { state } from './logic';
 import { ctx } from './canvas';
 
@@ -13,7 +15,7 @@ import SwitchModule from './modules/SwitchModule';
 import LightModule from './modules/LightModule';
 
 export let startClick = { x: 0, y: 0 };
-export let mousePos = getMouseGridPos();
+export let mousePos: MouseCoordinates;
 
 export default function doInput() {
   mousePos = getMouseGridPos();

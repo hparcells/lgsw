@@ -2,6 +2,11 @@ import Module from './Module';
 
 export type ModuleString = 'switch' | 'light';
 
+export interface MouseCoordinates {
+  x: number;
+  y: number;
+}
+
 interface IOAcceptance {
   accept: boolean;
   count: number;
