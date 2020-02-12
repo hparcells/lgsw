@@ -4,7 +4,6 @@ import { remove } from '@reverse/array';
 import getModuleFromString from '../utils/get-module';
 import { getMouseGridPos } from '../utils/mouse';
 import { disableWiring, toggleWiring, isWiring } from './wiring';
-import updateModules from './update';
 
 import { MouseCoordinates } from '../types/types';
 
@@ -68,9 +67,10 @@ export default function doInput() {
         state.modules.push(new state.moduleInHand(mousePos.x, mousePos.y));
       }
     }else if(!isWiring) {
-      state.modules.find((moudle) => {
+      const interactedModule = state.modules.find((moudle) => {
         return moudle.x === mousePos.x && moudle.y === mousePos.y;
-      })?.onClick();
+      });
+      interactedModule?.onClick();
     }
 
     startClick.x = mouse.x;
@@ -84,11 +84,27 @@ export default function doInput() {
     });
 
     if(moduleToDelete) {
+      moduleToDelete.inputs.forEach((inputtedModuleId) => {
+        const inputtedMoudle = state.modules.find((moudle) => {
+          return moudle.id === inputtedModuleId;
+        });
+
+        if(inputtedMoudle) {
+          inputtedMoudle.outputs = remove(inputtedMoudle.outputs, moduleToDelete.id);
+        }
+      });
+      moduleToDelete.outputs.forEach((outputtedModuleId) => {
+        const outputtedModule = state.modules.find((moudle) => {
+          return moudle.id === outputtedModuleId;
+        });
+
+        if(outputtedModule) {
+          outputtedModule.inputs = remove(outputtedModule.inputs, moduleToDelete.id);
+          outputtedModule.doLogic();
+        }
+      });
+
       state.modules = remove(state.modules, moduleToDelete);
-
-      // TODO: Remove all references.
-
-      updateModules();
     }
   }
 
@@ -128,9 +144,10 @@ export default function doInput() {
       ) {
         startingModule.outputs.push(endingModule.id);
         endingModule.inputs.push(startingModule.id);
-      }
-    }
 
-    updateModules();
+      }
+
+      endingModule.doLogic();
+    }
   }
 }

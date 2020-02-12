@@ -15,16 +15,16 @@ export const state: GameState = {
 /** The game loop. */
 export function gameLoop() {
   cleanCanvas();
-
-  doInput();
-
+  
   ctx.save();
   
   renderGrid();
+  
+  renderObjects();
+
+  doInput();
 
   renderCursor();
-
-  renderObjects();
 
   ctx.restore();
 

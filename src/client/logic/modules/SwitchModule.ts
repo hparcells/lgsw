@@ -1,7 +1,5 @@
 import Module from '../../types/Module';
 
-import updateModules from '../update';
-
 import { ModuleAcceptance } from '../../types/types';
 
 import { ctx } from '../canvas';
@@ -63,7 +61,7 @@ class SwitchModule extends Module {
   onClick() {
     this.on = !this.on;
 
-    updateModules();
+    this.doLogic();
   }
   doLogic() {
     this.outputs.forEach((output) => {
