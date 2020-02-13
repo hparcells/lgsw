@@ -1,10 +1,11 @@
-import Module from '../../types/Module';
+import Module from '../../../types/Module';
 
-import { ctx } from '../canvas';
-import { state } from '../logic';
-import { ModuleAcceptance } from '../../types/types';
+import { ModuleAcceptance } from '../../../types/types';
 
-class LightModule extends Module {
+import { state } from '../../logic';
+import { ctx } from '../../canvas';
+
+class LampModule extends Module {
   accepts: ModuleAcceptance = {
     input: {
       accept: true,
@@ -17,7 +18,7 @@ class LightModule extends Module {
   }
 
   constructor(x: number, y: number) {
-    super('light');
+    super('lamp');
 
     this.x = x;
     this.y = y;
@@ -56,4 +57,4 @@ class LightModule extends Module {
   }
 }
 
-export default LightModule;
+export default LampModule;

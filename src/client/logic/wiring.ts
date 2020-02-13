@@ -51,10 +51,9 @@ export function checkWiring() {
       ) {
         startingModule.outputs.push(endingModule.id);
         endingModule.inputs.push(startingModule.id);
-
       }
 
-      endingModule.doLogic();
+      startingModule.doLogic();
     }
   }
 }

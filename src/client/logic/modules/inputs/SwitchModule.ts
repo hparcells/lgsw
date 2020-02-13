@@ -1,9 +1,9 @@
-import Module from '../../types/Module';
+import Module from '../../../types/Module';
 
-import { ModuleAcceptance } from '../../types/types';
+import { ModuleAcceptance } from '../../../types/types';
 
-import { ctx } from '../canvas';
-import { state } from '../logic';
+import { ctx } from '../../canvas';
+import { state } from '../../logic';
 
 class SwitchModule extends Module {
   accepts: ModuleAcceptance = {

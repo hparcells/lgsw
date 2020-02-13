@@ -22,7 +22,7 @@ abstract class Module extends RenderableObject {
   }
 
   abstract onClick(): void;
-  abstract doLogic(): void;
+  abstract doLogic(originId?: string): void;
 }
 
 export default Module;

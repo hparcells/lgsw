@@ -9,8 +9,12 @@ import { MouseCoordinates } from '../types/types';
 
 import { state } from './logic';
 
-import SwitchModule from './modules/SwitchModule';
-import LightModule from './modules/LightModule';
+import SwitchModule from './modules/inputs/SwitchModule';
+import LampModule from './modules/outputs/LampModule';
+import AndModule from './modules/gates/AndModule';
+import NandModule from './modules/gates/NandModule';
+import OrModule from './modules/gates/OrModule';
+import NorModule from './modules/gates/NorModule';
 
 export let mousePos: MouseCoordinates;
 
@@ -71,7 +75,23 @@ export default function doInput() {
     disableWiring();
   }
   if(keyboard.Digit2Pressed) {
-    state.moduleInHand = LightModule;
+    state.moduleInHand = LampModule;
+    disableWiring();
+  }
+  if(keyboard.Digit3Pressed) {
+    if(keyboard.Shift) {
+      state.moduleInHand = NandModule;
+    }else {
+      state.moduleInHand = AndModule;
+    }
+    disableWiring();
+  }
+  if(keyboard.Digit4Pressed) {
+    if(keyboard.Shift) {
+      state.moduleInHand = NorModule;
+    }else {
+      state.moduleInHand = OrModule;
+    }
     disableWiring();
   }
 
