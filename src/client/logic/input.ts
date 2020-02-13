@@ -18,31 +18,21 @@ import NorModule from './modules/gates/NorModule';
 
 export let mousePos: MouseCoordinates;
 
+export const startDragPos: MouseCoordinates = { x: 0, y: 0 };
+export const startDragCameraPos: MouseCoordinates = { x: 0, y: 0 };
+
 export default function doInput() {
   mousePos = getMouseGridPos();
 
-  if(keyboard.ArrowUp) {
-    state.camera.y -= 0.5;
-  }
-  if(keyboard.ArrowRight) {
-    state.camera.x += 0.5;
-  }
-  if(keyboard.ArrowDown) {
-    state.camera.y += 0.5;
-  }
-  if(keyboard.ArrowLeft) {
-    state.camera.x -= 0.5;
-  }
-
-  // Check for zoom input.
-  if(keyboard.NumpadAdd) {
-    if(state.camera.scale < 4) {
-      state.camera.scale += 0.05;
+  if(keyboard.BracketLeft) {
+    if(state.camera.wireOpacity > 0) {
+      state.camera.wireOpacity -= 0.05;
     }
   }
-  if(keyboard.NumpadSubtract) {
-    if(state.camera.scale > 0.25)
-    state.camera.scale -= 0.05;
+  if(keyboard.BracketRight) {
+    if(state.camera.wireOpacity < 1) {
+      state.camera.wireOpacity += 0.05;
+    }
   }
 
   // Check for deselect input.
@@ -95,6 +85,19 @@ export default function doInput() {
     disableWiring();
   }
 
+  // Saving and loading.
+  if(keyboard.iPressed) {
+    const save = window.prompt('Paste below your save data.');
+
+
+    if(save) {
+      // TODO:
+    }
+  }
+  if(keyboard.oPressed) {
+    window.prompt('This is your save data. Press \'I\' when you return to load this session.', window.btoa(JSON.stringify(state)));
+  }
+
   if(mouse.leftPressed) {
     if(state.moduleInHand) {
       if(!state.modules.find((module) => {
@@ -140,4 +143,46 @@ export default function doInput() {
       state.modules = remove(state.modules, moduleToDelete);
     }
   }
+
+  // Camvas Panning
+  if(mouse.middlePressed) {
+    startDragPos.x = mouse.x;
+    startDragPos.y = mouse.y;
+
+    startDragCameraPos.x = state.camera.x;
+    startDragCameraPos.y = state.camera.y;
+  }
+  if(mouse.middle) {
+    state.camera.x = startDragCameraPos.x + ((startDragPos.x - mouse.x) / (state.gridSize * state.camera.scale));
+    state.camera.y = startDragCameraPos.y + ((startDragPos.y - mouse.y) / (state.gridSize * state.camera.scale));
+  }
+  if(keyboard.ArrowUp) {
+    state.camera.y -= 0.5;
+  }
+  if(keyboard.ArrowRight) {
+    state.camera.x += 0.5;
+  }
+  if(keyboard.ArrowDown) {
+    state.camera.y += 0.5;
+  }
+  if(keyboard.ArrowLeft) {
+    state.camera.x -= 0.5;
+  }
+  
+  // Canvas Zooming
+  if(mouse.scrollY) {
+    state.camera.scale = Math.min(Math.max(state.camera.scale - (mouse.scrollY / 15), 0.25), 4);
+  }
+  if(keyboard.NumpadAdd) {
+    if(state.camera.scale < 4) {
+      state.camera.scale += 0.05;
+    }
+  }
+  if(keyboard.NumpadSubtract) {
+    if(state.camera.scale > 0.25) {
+      state.camera.scale -= 0.05;
+    }
+  }
+
+  state.camera.wireOpacity = Math.round(state.camera.wireOpacity * 100) / 100;
 }

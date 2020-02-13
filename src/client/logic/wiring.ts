@@ -45,19 +45,23 @@ export function checkWiring() {
         startingModule.outputs = remove(startingModule.outputs, endingModule.id);
         endingModule.inputs = remove(endingModule.inputs, startingModule.id);
       }else if(
-      // If there is room for another conenction.
+        // If there is room for another conenction.
         startingModule.outputs.length + 1 < startingModule.accepts.output.count
         && endingModule.inputs.length + 1 < endingModule.accepts.input.count
-      ) {
-        startingModule.outputs.push(endingModule.id);
-        endingModule.inputs.push(startingModule.id);
-      }
+        ) {
+          startingModule.outputs.push(endingModule.id);
+          endingModule.inputs.push(startingModule.id);
+        }
 
-      startingModule.doLogic();
+        startingModule.doLogic();
+        endingModule.doLogic();
+      }
     }
-  }
 }
 export function renderWireAction() {
+  ctx.save();
+  ctx.globalAlpha = state.camera.wireOpacity;
+
   if(mouse.left) {
     if(isWiring) {
       ctx.save();
@@ -73,11 +77,12 @@ export function renderWireAction() {
       ctx.restore();
     }
   }
+
+  ctx.restore();
 }
 export function renderWiring() {
-  let cx = state.camera.x * -state.gridSize * state.camera.scale + (canvas.width / 2);
-  let cy = state.camera.y * -state.gridSize * state.camera.scale + (canvas.height / 2);
-
+  ctx.save();
+  ctx.globalAlpha = state.camera.wireOpacity;
 
   state.modules.forEach((module) => {
     return module.outputs.forEach((outputId) => {
@@ -107,4 +112,6 @@ export function renderWiring() {
       }
     });
   });
+
+  ctx.restore();
 }

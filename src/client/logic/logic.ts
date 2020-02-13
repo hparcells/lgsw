@@ -8,15 +8,20 @@ import { checkWiring, renderWiring, renderWireAction } from './wiring';
 
 import { ctx, canvas } from './canvas';
 
-export const state: GameState = {
+export let state: GameState = {
   camera: {
     x: 0,
     y: 0,
-    scale: 1
+    scale: 1,
+    wireOpacity: 1
   },
   modules: [],
   gridSize: 64,
   moduleInHand: null
+}
+
+export function setState(newState: GameState) {
+  state = newState;
 }
 
 /** The game loop. */

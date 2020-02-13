@@ -22,6 +22,12 @@ export function setupCanvas() {
     ctx.canvas.width  = window.innerWidth;
     ctx.canvas.height = window.innerHeight;
   });
+  
+  document.body.onmousedown = (ev) => {
+    if(ev.button === 1) {
+      return false;
+    }
+  };
 
   // Start the game loop.
   window.requestAnimationFrame(gameLoop);

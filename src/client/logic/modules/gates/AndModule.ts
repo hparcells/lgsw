@@ -1,6 +1,8 @@
 import Module from '../../../types/Module';
 import { ModuleAcceptance } from '../../../types/types';
 
+import { updateModules } from '../../update';
+
 import { state } from '../../logic';
 import { ctx } from '../../canvas';
 
@@ -50,24 +52,20 @@ class AndModule extends Module {
 
   doLogic(originId?: string) {
     // Update this state.
-    this.on = this.inputs.map((id) => {
-      return state.modules.find((module) => {
-        return module.id === id;
-      })?.on;
-    }).every((input) => {
-      return input === true;
-    });
+    if(this.inputs.length === 0) {
+      this.on = false;
+    }else {
+      this.on = this.inputs.map((id) => {
+        return state.modules.find((module) => {
+          return module.id === id;
+        })?.on;
+      }).every((input) => {
+        return input === true;
+      });
+    }
     
     // Update all connected modules.
-    this.outputs.map((outputId) => {
-      return state.modules.find((moudle) => {
-        return moudle.id === outputId;
-      });
-    }).forEach((module) => {
-      if(module?.id !== originId) {
-        module?.doLogic(this.id);
-      } 
-    });
+    updateModules(this.id, this.outputs, originId);
   }
 }
 

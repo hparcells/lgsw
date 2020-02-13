@@ -10,6 +10,7 @@ interface Camera {
   x: number;
   y: number;
   scale: number;
+  wireOpacity: number;
 }
 interface IOAcceptance {
   accept: boolean;

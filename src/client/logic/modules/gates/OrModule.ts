@@ -1,6 +1,8 @@
 import Module from '../../../types/Module';
 import { ModuleAcceptance } from '../../../types/types';
 
+import { updateModules } from '../../update';
+
 import { state } from '../../logic';
 import { ctx } from '../../canvas';
 
@@ -56,15 +58,7 @@ class OrModule extends Module {
     }).includes(true);
 
     // Update all connected modules.
-    this.outputs.map((outputId) => {
-      return state.modules.find((moudle) => {
-        return moudle.id === outputId;
-      });
-    }).forEach((module) => {
-      if(module?.id !== originId) {
-        module?.doLogic(this.id);
-      } 
-    });
+    updateModules(this.id, this.outputs, originId);
   }
 }
 

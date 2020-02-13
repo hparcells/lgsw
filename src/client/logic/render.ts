@@ -26,12 +26,12 @@ export function renderGrid() {
 
   const startX = (
     ((state.camera.x / 2) * -lineSize2) % lineSize2)
-    - lineSize2 * 1.5
+    - lineSize2 * 2
     - ((canvas.width / -2) % lineSize2
   );
   const startY = (
     ((state.camera.y / 2) * -lineSize2) % lineSize2)
-    - lineSize2 * 1.5
+    - lineSize2 * 2
     - ((canvas.height / -2) % lineSize2
   );
 
