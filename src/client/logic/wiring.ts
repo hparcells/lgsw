@@ -5,7 +5,7 @@ import { getMouseGridPos } from '../utils/mouse';
 
 import { state } from './logic';
 import { mousePos } from './input';
-import { ctx } from './canvas';
+import { ctx, canvas } from './canvas';
 
 export let shouldDrawHoveredTile = true;
 export let isWiring = false;
@@ -58,15 +58,54 @@ export function checkWiring() {
     }
   }
 }
-export function renderWiring() {
+export function renderWireAction() {
   if(mouse.left) {
     if(isWiring) {
+      ctx.save();
+  
       ctx.strokeStyle = '#FF0000';
       ctx.beginPath();
       ctx.moveTo(startClick.x, startClick.y);
       ctx.lineTo(mouse.x, mouse.y);
-      ctx.lineWidth = 3 * (state.gridSize / 64);
+      ctx.lineWidth = 3 * state.camera.scale;
+      ctx.lineCap = 'round';
       ctx.stroke();
+  
+      ctx.restore();
     }
   }
+}
+export function renderWiring() {
+  let cx = state.camera.x * -state.gridSize * state.camera.scale + (canvas.width / 2);
+  let cy = state.camera.y * -state.gridSize * state.camera.scale + (canvas.height / 2);
+
+
+  state.modules.forEach((module) => {
+    return module.outputs.forEach((outputId) => {
+      if(module.on) {
+        ctx.strokeStyle = '#00FF00';
+      }else {
+        ctx.strokeStyle = '#FF0000';
+      }
+
+      const connectedMoudle = state.modules.find((module) => {
+        return module.id === outputId;
+      });
+
+      if(connectedMoudle) {
+        ctx.beginPath();
+        ctx.moveTo(
+          (module.x * state.gridSize) + (state.gridSize * 0.9),
+          (module.y * state.gridSize) + (state.gridSize * 0.1)
+        );
+        ctx.lineTo(
+          (connectedMoudle.x * state.gridSize) + (state.gridSize * 0.1),
+          (connectedMoudle.y * state.gridSize) + (state.gridSize * 0.9)
+        );
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+    });
+  });
 }

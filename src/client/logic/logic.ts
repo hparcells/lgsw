@@ -4,7 +4,7 @@ import { GameState } from '../types/types';
 
 import doInput from './input';
 import { cleanCanvas, renderCursor, renderGrid, renderObjects } from './render';
-import { checkWiring, renderWiring } from './wiring';
+import { checkWiring, renderWiring, renderWireAction } from './wiring';
 
 import { ctx, canvas } from './canvas';
 
@@ -27,6 +27,8 @@ export function gameLoop() {
   
   renderGrid();
   
+  checkWiring();
+
   ctx.save();
   
   let cx = state.camera.x * -state.gridSize * state.camera.scale + (canvas.width / 2);
@@ -39,10 +41,11 @@ export function gameLoop() {
   
   renderCursor();
 
+  renderWiring();
+  
   ctx.restore();
 
-  checkWiring();
-  renderWiring();
+  renderWireAction();
 
   // Update input.
   updateInputManager();

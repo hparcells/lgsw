@@ -68,9 +68,11 @@ export default function doInput() {
   // Check for module hotkeys pressed.
   if(keyboard.Digit1Pressed) {
     state.moduleInHand = SwitchModule;
+    disableWiring();
   }
   if(keyboard.Digit2Pressed) {
     state.moduleInHand = LightModule;
+    disableWiring();
   }
 
   if(mouse.leftPressed) {
