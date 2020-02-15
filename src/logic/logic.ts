@@ -8,6 +8,7 @@ import { checkWiring, renderWiring, renderWireAction } from './wiring';
 import { renderDebugOverlay, setRStart } from './debug';
 
 import { ctx, canvas } from './canvas';
+import { moduleUpdateQueue, clearUpdateQueue } from './update';
 
 export let state: GameState = {
   camera: {
@@ -27,6 +28,16 @@ export function setState(newState: GameState) {
 
 /** The game loop. */
 export function gameLoop() {
+  moduleUpdateQueue.forEach((moduleId) => {
+    state.modules.find((module) => {
+      return module.id === moduleId;
+    })?.doLogic();
+    console.log(state.modules.find((module) => {
+      return module.id === moduleId;
+    }))
+  });
+  clearUpdateQueue();
+
   doInput();
   
   setRStart(performance.now());

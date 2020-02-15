@@ -27,7 +27,7 @@ class ClockModule extends Module {
   }
 
   render() {
-    if(Date.now() >= this.lastAlternation + 100) {
+    if(Date.now() > this.lastAlternation + 500) {
       this.lastAlternation = Date.now();
       this.doLogic();
     }
@@ -55,8 +55,13 @@ class ClockModule extends Module {
   }
 
   onClick() {}
+
+  getExpectedState() {
+    return !this.on;
+  }
+
   doLogic() {
-    this.on = !this.on;
+    this.on = this.getExpectedState();
 
     this.outputs.forEach((output) => {
       return state.modules.find((module) => {

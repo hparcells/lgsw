@@ -50,12 +50,11 @@ class NandModule extends Module {
 
   onClick() {}
 
-  doLogic(originId?: string) {
-    // Update this state.
+  getExpectedState() {
     if(this.inputs.length === 0) {
-      this.on = true;
+      return true;
     }else {
-      this.on = !this.inputs.map((id) => {
+     return !this.inputs.map((id) => {
         return state.modules.find((module) => {
           return module.id === id;
         })?.on;
@@ -63,6 +62,10 @@ class NandModule extends Module {
         return input === true;
       });
     }
+  }
+  doLogic(originId?: string) {
+    // Update this state.
+    this.on = this.getExpectedState();
     
     // Update all connected modules.
     updateModules(this.id, this.outputs, originId);

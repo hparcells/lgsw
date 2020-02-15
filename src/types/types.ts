@@ -1,6 +1,6 @@
 import Module from './Module';
 
-export type ModuleString = 'switch' | 'clock' | 'lamp' | 'and' | 'nand' | 'or' | 'nor' | 'not' | 'xor' | 'xnor';
+export type ModuleString = 'switch' | 'button' | 'clock' | 'lamp' | 'and' | 'nand' | 'or' | 'nor' | 'not' | 'xor' | 'xnor';
 
 export interface MouseCoordinates {
   x: number;

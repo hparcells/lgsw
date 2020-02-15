@@ -50,14 +50,19 @@ class XorModule extends Module {
 
   onClick() {}
 
-  doLogic(originId: string) {
-    this.on = !!(this.inputs.map((id) => {
+  getExpectedState() {
+    return !!(this.inputs.map((id) => {
       return state.modules.find((module) => {
         return module.id === id;
       })?.on;
     }).filter((module) => {
       return module === true;
     }).length % 2);
+  }
+
+  doLogic(originId: string) {
+    // Update this state.
+    this.on = this.getExpectedState();
 
     // Update all connected modules.
     updateModules(this.id, this.outputs, originId);

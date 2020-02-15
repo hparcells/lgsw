@@ -54,6 +54,8 @@ class SwitchModule extends Module {
     );
   }
 
+  getExpectedState() {}
+
   onClick() {
     this.on = !this.on;
 
@@ -64,7 +66,7 @@ class SwitchModule extends Module {
       return state.modules.find((module) => {
         return module.id === output;
       })?.doLogic();
-    })
+    });
   }
 }
 
