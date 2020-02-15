@@ -22,6 +22,7 @@ abstract class Module extends RenderableObject {
   }
 
   abstract onClick(): void;
+  abstract getExpectedState(): boolean | void;
   abstract doLogic(originId?: string): void;
 }
 

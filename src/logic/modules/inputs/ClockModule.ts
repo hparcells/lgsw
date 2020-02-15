@@ -2,6 +2,8 @@ import Module from '../../../types/Module';
 
 import { ModuleAcceptance } from '../../../types/types';
 
+import { updateModule } from '../../update';
+
 import { ctx } from '../../canvas';
 import { state } from '../../logic';
 
@@ -17,6 +19,8 @@ class ClockModule extends Module {
     }
   }
 
+  lastAlternation = 0;
+
   constructor(x: number, y: number) {
     super('clock');
 
@@ -25,6 +29,12 @@ class ClockModule extends Module {
   }
 
   render() {
+    if(Date.now() > this.lastAlternation + 10) {
+      this.lastAlternation = Date.now();
+
+      updateModule(this.id);
+    }
+
     ctx.save();
     ctx.translate(this.x * state.gridSize, this.y * state.gridSize);
 
@@ -45,19 +55,16 @@ class ClockModule extends Module {
     ctx.restore();
 
     ctx.restore();
-
-    this.doLogic();
   }
 
   onClick() {}
-  doLogic() {
-    this.on = !!(Math.floor((Date.now() / 1000)) % 2);
 
-    this.outputs.forEach((output) => {
-      return state.modules.find((module) => {
-        return module.id === output;
-      })?.doLogic();
-    });
+  getExpectedState() {
+    return !this.on;
+  }
+
+  doLogic() {
+    this.on = this.getExpectedState();
   }
 }
 

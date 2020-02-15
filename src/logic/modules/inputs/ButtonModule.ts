@@ -2,29 +2,37 @@ import Module from '../../../types/Module';
 
 import { ModuleAcceptance } from '../../../types/types';
 
-import { state } from '../../logic';
-import { ctx } from '../../canvas';
+import { updateModule } from '../../update';
 
-class LampModule extends Module {
+import { ctx } from '../../canvas';
+import { state } from '../../logic';
+
+class ButtonModule extends Module {
   accepts: ModuleAcceptance = {
     input: {
-      accept: true,
-      count: Infinity
-    },
-    output: {
       accept: false,
       count: 0
+    },
+    output: {
+      accept: true,
+      count: Infinity
     }
   }
 
+  onTime: number = 0;
+
   constructor(x: number, y: number) {
-    super('lamp');
+    super('button');
 
     this.x = x;
     this.y = y;
   }
 
   render() {
+    if(Date.now() > this.onTime + 10 && this.on) {
+      this.on = false;
+      this.doLogic();
+    }
     ctx.save();
     ctx.translate(this.x * state.gridSize, this.y * state.gridSize);
     
@@ -32,9 +40,9 @@ class LampModule extends Module {
     ctx.fillRect(0, 0, state.gridSize, state.gridSize);
     
     if(this.on) {
-      ctx.fillStyle = '#D7E37F';
+      ctx.fillStyle = '#00FF00';
     }else {
-      ctx.fillStyle = '#636363';
+      ctx.fillStyle = '#FF0000';
     }
 
     ctx.fillRect(
@@ -46,20 +54,17 @@ class LampModule extends Module {
       
     ctx.restore();
   }
-  
-  onClick() {}
 
-  getExpectedState() {
-    return this.inputs.map((id) => {
-      return state.modules.find((module) => {
-        return module.id === id;
-      })?.on;
-    }).includes(true);
+  getExpectedState() {}
+
+  onClick() {
+    this.onTime = Date.now();
+
+    this.on = true;
+    updateModule(this.id);
   }
 
-  doLogic() {
-    this.on = this.getExpectedState();
-  }
+  doLogic() {}
 }
 
-export default LampModule;
+export default ButtonModule;

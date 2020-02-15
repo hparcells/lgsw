@@ -1,8 +1,6 @@
 import Module from '../../../types/Module';
 import { ModuleAcceptance } from '../../../types/types';
 
-import { updateModules } from '../../update';
-
 import { state } from '../../logic';
 import { ctx } from '../../canvas';
 
@@ -50,17 +48,19 @@ class XorModule extends Module {
 
   onClick() {}
 
-  doLogic(originId: string) {
-    this.on = !!(this.inputs.map((id) => {
+  getExpectedState() {
+    return !!(this.inputs.map((id) => {
       return state.modules.find((module) => {
         return module.id === id;
       })?.on;
     }).filter((module) => {
       return module === true;
     }).length % 2);
+  }
 
-    // Update all connected modules.
-    updateModules(this.id, this.outputs, originId);
+  doLogic(originId: string) {
+    // Update this state.
+    this.on = this.getExpectedState();
   }
 }
 

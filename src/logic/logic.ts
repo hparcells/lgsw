@@ -6,6 +6,7 @@ import doInput from './input';
 import { cleanCanvas, renderCursor, renderGrid, renderObjects } from './render';
 import { checkWiring, renderWiring, renderWireAction } from './wiring';
 import { renderDebugOverlay, setRStart } from './debug';
+import { updatePendingModules } from './update';
 
 import { ctx, canvas } from './canvas';
 
@@ -27,11 +28,13 @@ export function setState(newState: GameState) {
 
 /** The game loop. */
 export function gameLoop() {
-  setRStart(performance.now());
+  updatePendingModules();
 
-  cleanCanvas();
-  
   doInput();
+  
+  setRStart(performance.now());
+  
+  cleanCanvas();
   
   renderGrid();
   

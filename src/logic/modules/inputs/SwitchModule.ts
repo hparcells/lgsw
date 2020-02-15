@@ -2,8 +2,10 @@ import Module from '../../../types/Module';
 
 import { ModuleAcceptance } from '../../../types/types';
 
-import { ctx } from '../../canvas';
+import { updateModule } from '../../update';
+
 import { state } from '../../logic';
+import { ctx } from '../../canvas';
 
 class SwitchModule extends Module {
   accepts: ModuleAcceptance = {
@@ -54,18 +56,14 @@ class SwitchModule extends Module {
     );
   }
 
+  getExpectedState() {}
+
   onClick() {
     this.on = !this.on;
 
-    this.doLogic();
+    updateModule(this.id);
   }
-  doLogic() {
-    this.outputs.forEach((output) => {
-      return state.modules.find((module) => {
-        return module.id === output;
-      })?.doLogic();
-    })
-  }
+  doLogic() {}
 }
 
 export default SwitchModule;

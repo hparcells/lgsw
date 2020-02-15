@@ -4,6 +4,7 @@ import { remove } from '@reverse/array';
 import getModuleFromString from '../utils/get-module';
 import { getMouseGridPos } from '../utils/mouse';
 import { disableWiring, toggleWiring, isWiring } from './wiring';
+import { updateModule } from './update';
 
 import { MouseCoordinates } from '../types/types';
 
@@ -11,6 +12,7 @@ import { state } from './logic';
 
 import SwitchModule from './modules/inputs/SwitchModule';
 import ClockModule from './modules/inputs/ClockModule';
+import ButtonModule from './modules/inputs/ButtonModule';
 
 import LampModule from './modules/outputs/LampModule';
 
@@ -71,7 +73,11 @@ export default function doInput() {
   }
   // Check for module hotkeys pressed.
   if(keyboard.Digit1Pressed) {
-    state.moduleInHand = SwitchModule;
+    if(keyboard.Shift) {
+      state.moduleInHand = ButtonModule;
+    }else {
+      state.moduleInHand = SwitchModule;
+    }
     disableWiring();
   }
   if(keyboard.Digit2Pressed) {
@@ -158,7 +164,7 @@ export default function doInput() {
 
         if(outputtedModule) {
           outputtedModule.inputs = remove(outputtedModule.inputs, moduleToDelete.id);
-          outputtedModule.doLogic();
+          updateModule(outputtedModule.id);
         }
       });
 
