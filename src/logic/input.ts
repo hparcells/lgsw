@@ -15,6 +15,7 @@ import AndModule from './modules/gates/AndModule';
 import NandModule from './modules/gates/NandModule';
 import OrModule from './modules/gates/OrModule';
 import NorModule from './modules/gates/NorModule';
+import NotModule from './modules/gates/NotModule';
 
 export let mousePos: MouseCoordinates;
 
@@ -82,6 +83,10 @@ export default function doInput() {
     }else {
       state.moduleInHand = OrModule;
     }
+    disableWiring();
+  }
+  if(keyboard.Digit5Pressed) {
+    state.moduleInHand = NotModule;
     disableWiring();
   }
 

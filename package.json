@@ -1,29 +1,39 @@
 {
   "name": "lgsw",
-  "description": "A logic gate sandbox.",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "fullstack-system dev",
-    "dev": "fullstack-system dev",
-    "build": "fullstack-system build",
-    "clean": "fullstack-system clean",
-    "production": "fullstack-system production"
-  },
+  "version": "1.0.0-alpha.1",
+  "private": true,
   "dependencies": {
     "@reverse/array": "^1.7.3",
-    "easy-web-input": "^1.0.0",
-    "fullstack-system": "^2.8.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "easy-web-input": "^2.0.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "uuid": "^3.4.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@types/node": "^12.12.27",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
     "@types/uuid": "^3.4.7",
     "node-sass": "^4.13.1",
-    "typescript": "^3.5.3"
+    "react-scripts": "3.4.0",
+    "typescript": "^3.7.5"
   },
-  "fullstack-system": {
-    "autoHotLoader": false
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

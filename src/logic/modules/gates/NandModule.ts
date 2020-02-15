@@ -6,7 +6,7 @@ import { updateModules } from '../../update';
 import { state } from '../../logic';
 import { ctx } from '../../canvas';
 
-class AndModule extends Module {
+class NandModule extends Module {
   accepts: ModuleAcceptance = {
     input: {
       accept: true,
@@ -19,7 +19,7 @@ class AndModule extends Module {
   }
 
   constructor(x: number, y: number) {
-    super('and');
+    super('nand');
 
     this.x = x;
     this.y = y;
@@ -39,9 +39,9 @@ class AndModule extends Module {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.translate(state.gridSize / 2, state.gridSize / 2);
-    ctx.fillStyle = '#FF0000';
+    ctx.fillStyle = '#FF2414';
     ctx.font = 'bold 20px sans-serif';
-    ctx.fillText('AND', 0, 0);
+    ctx.fillText('NAND', 0, 0);
 
     ctx.restore();
 
@@ -53,9 +53,9 @@ class AndModule extends Module {
   doLogic(originId?: string) {
     // Update this state.
     if(this.inputs.length === 0) {
-      this.on = false;
+      this.on = true;
     }else {
-      this.on = this.inputs.map((id) => {
+      this.on = !this.inputs.map((id) => {
         return state.modules.find((module) => {
           return module.id === id;
         })?.on;
@@ -69,4 +69,4 @@ class AndModule extends Module {
   }
 }
 
-export default AndModule;
+export default NandModule;

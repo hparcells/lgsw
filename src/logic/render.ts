@@ -1,11 +1,8 @@
-import { mouse } from 'easy-web-input';
-
 import { shouldDrawHoveredTile } from './wiring';
 import { state } from './logic';
 import { ctx, canvas } from './canvas';
 import { mousePos } from './input';
 import { GRID_COLOR_1, GRID_COLOR_2 } from './constants';
-import { AllHTMLAttributes } from 'react';
 
 export function cleanCanvas() {
   // Clean the entire canvas.

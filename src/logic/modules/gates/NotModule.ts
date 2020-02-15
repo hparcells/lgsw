@@ -6,20 +6,20 @@ import { updateModules } from '../../update';
 import { state } from '../../logic';
 import { ctx } from '../../canvas';
 
-class NandModule extends Module {
+class NotModule extends Module {
   accepts: ModuleAcceptance = {
     input: {
       accept: true,
-      count: Infinity
+      count: 1
     },
     output: {
       accept: true,
-      count: Infinity
+      count: 1
     }
   }
 
   constructor(x: number, y: number) {
-    super('nand');
+    super('not');
 
     this.x = x;
     this.y = y;
@@ -39,9 +39,9 @@ class NandModule extends Module {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.translate(state.gridSize / 2, state.gridSize / 2);
-    ctx.fillStyle = '#FF0000';
+    ctx.fillStyle = '#27CF46';
     ctx.font = 'bold 20px sans-serif';
-    ctx.fillText('NAND', 0, 0);
+    ctx.fillText('NOT', 0, 0);
 
     ctx.restore();
 
@@ -51,22 +51,15 @@ class NandModule extends Module {
   onClick() {}
 
   doLogic(originId?: string) {
-    // Update this state.
-    if(this.inputs.length === 0) {
-      this.on = true;
-    }else {
-      this.on = !this.inputs.map((id) => {
-        return state.modules.find((module) => {
-          return module.id === id;
-        })?.on;
-      }).every((input) => {
-        return input === true;
+    this.on = !this.inputs.map((id) => {
+      return state.modules.find((module) => {
+        return module.id === id;
       });
-    }
-    
+    })[0]?.on;
+
     // Update all connected modules.
     updateModules(this.id, this.outputs, originId);
   }
 }
 
-export default NandModule;
+export default NotModule;

@@ -1,4 +1,4 @@
-import { updateInputManager } from 'easy-web-input';
+import { inputManagerEndFrame } from 'easy-web-input';
 
 import { GameState } from '../types/types';
 
@@ -53,7 +53,7 @@ export function gameLoop() {
   renderWireAction();
 
   // Update input.
-  updateInputManager();
+  inputManagerEndFrame();
 
   // Take it back now y'all.
   window.requestAnimationFrame(gameLoop);

@@ -5,7 +5,7 @@ import { getMouseGridPos } from '../utils/mouse';
 
 import { state } from './logic';
 import { mousePos } from './input';
-import { ctx, canvas } from './canvas';
+import { ctx } from './canvas';
 
 export let shouldDrawHoveredTile = true;
 export let isWiring = false;
@@ -46,8 +46,8 @@ export function checkWiring() {
         endingModule.inputs = remove(endingModule.inputs, startingModule.id);
       }else if(
         // If there is room for another conenction.
-        startingModule.outputs.length + 1 < startingModule.accepts.output.count
-        && endingModule.inputs.length + 1 < endingModule.accepts.input.count
+        startingModule.outputs.length + 1 <= startingModule.accepts.output.count
+        && endingModule.inputs.length + 1 <= endingModule.accepts.input.count
         ) {
           startingModule.outputs.push(endingModule.id);
           endingModule.inputs.push(startingModule.id);

@@ -6,6 +6,7 @@ import AndModule from '../logic/modules/gates/AndModule';
 import NandModule from '../logic/modules/gates/NandModule';
 import OrModule from '../logic/modules/gates/OrModule';
 import NorModule from '../logic/modules/gates/NorModule';
+import NotModule from '../logic/modules/gates/NotModule';
 
 const MODULE_MAP = {
   switch: SwitchModule,
@@ -13,7 +14,8 @@ const MODULE_MAP = {
   and: AndModule,
   nand: NandModule,
   or: OrModule,
-  nor: NorModule
+  nor: NorModule,
+  not: NotModule
 }
 
 export default function getModuleFromString(module: ModuleString) {
