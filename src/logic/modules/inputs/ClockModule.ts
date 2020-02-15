@@ -17,6 +17,8 @@ class ClockModule extends Module {
     }
   }
 
+  lastAlternation = 0;
+
   constructor(x: number, y: number) {
     super('clock');
 
@@ -25,6 +27,11 @@ class ClockModule extends Module {
   }
 
   render() {
+    if(Date.now() >= this.lastAlternation + 100) {
+      this.lastAlternation = Date.now();
+      this.doLogic();
+    }
+
     ctx.save();
     ctx.translate(this.x * state.gridSize, this.y * state.gridSize);
 
@@ -45,13 +52,11 @@ class ClockModule extends Module {
     ctx.restore();
 
     ctx.restore();
-
-    this.doLogic();
   }
 
   onClick() {}
   doLogic() {
-    this.on = !!(Math.floor((Date.now() / 1000)) % 2);
+    this.on = !this.on;
 
     this.outputs.forEach((output) => {
       return state.modules.find((module) => {

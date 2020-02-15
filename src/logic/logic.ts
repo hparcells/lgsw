@@ -27,11 +27,11 @@ export function setState(newState: GameState) {
 
 /** The game loop. */
 export function gameLoop() {
-  setRStart(performance.now());
-
-  cleanCanvas();
-  
   doInput();
+  
+  setRStart(performance.now());
+  
+  cleanCanvas();
   
   renderGrid();
   

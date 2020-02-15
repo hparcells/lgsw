@@ -8,6 +8,8 @@ export function updateModules(moduleId: string, modules: string[], origin?: stri
   }).forEach((module) => {
     if(module?.id !== origin) {
       module?.doLogic(moduleId);
-    } 
+    }else {
+      console.log(`oh shit at ${module?.moduleName}`)
+    }
   });
 }
