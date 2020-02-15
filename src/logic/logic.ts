@@ -5,6 +5,7 @@ import { GameState } from '../types/types';
 import doInput from './input';
 import { cleanCanvas, renderCursor, renderGrid, renderObjects } from './render';
 import { checkWiring, renderWiring, renderWireAction } from './wiring';
+import { renderDebugOverlay, setRStart } from './debug';
 
 import { ctx, canvas } from './canvas';
 
@@ -26,8 +27,10 @@ export function setState(newState: GameState) {
 
 /** The game loop. */
 export function gameLoop() {
-  cleanCanvas();
+  setRStart(performance.now());
 
+  cleanCanvas();
+  
   doInput();
   
   renderGrid();
@@ -45,16 +48,19 @@ export function gameLoop() {
   renderObjects();
   
   renderCursor();
-
+  
   renderWiring();
   
   ctx.restore();
 
   renderWireAction();
+  
+  // Debug
+  renderDebugOverlay();
 
   // Update input.
-  inputManagerEndFrame();
-
+  inputManagerEndFrame();  
+  
   // Take it back now y'all.
   window.requestAnimationFrame(gameLoop);
 }
