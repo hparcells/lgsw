@@ -4,6 +4,7 @@ import { remove } from '@reverse/array';
 import getModuleFromString from '../utils/get-module';
 import { getMouseGridPos } from '../utils/mouse';
 import { disableWiring, toggleWiring, isWiring } from './wiring';
+import { updateModule } from './update';
 
 import { MouseCoordinates } from '../types/types';
 
@@ -163,7 +164,7 @@ export default function doInput() {
 
         if(outputtedModule) {
           outputtedModule.inputs = remove(outputtedModule.inputs, moduleToDelete.id);
-          outputtedModule.doLogic();
+          updateModule(outputtedModule.id);
         }
       });
 

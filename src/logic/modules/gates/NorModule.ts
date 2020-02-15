@@ -1,8 +1,6 @@
 import Module from '../../../types/Module';
 import { ModuleAcceptance } from '../../../types/types';
 
-import { updateModules } from '../../update';
-
 import { state } from '../../logic';
 import { ctx } from '../../canvas';
 
@@ -58,12 +56,9 @@ class NorModule extends Module {
     }).includes(true);
   }
 
-  doLogic(originId?: string) {
+  doLogic() {
     // Update this state;
     this.on = this.getExpectedState();
-
-    // Update all connected modules.
-    updateModules(this.id, this.outputs, originId);
   }
 }
 

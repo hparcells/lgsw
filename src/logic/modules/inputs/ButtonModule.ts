@@ -2,6 +2,8 @@ import Module from '../../../types/Module';
 
 import { ModuleAcceptance } from '../../../types/types';
 
+import { updateModule } from '../../update';
+
 import { ctx } from '../../canvas';
 import { state } from '../../logic';
 
@@ -27,7 +29,7 @@ class ButtonModule extends Module {
   }
 
   render() {
-    if(Date.now() > this.onTime + 25 && this.on) {
+    if(Date.now() > this.onTime + 10 && this.on) {
       this.on = false;
       this.doLogic();
     }
@@ -59,16 +61,10 @@ class ButtonModule extends Module {
     this.onTime = Date.now();
 
     this.on = true;
-    this.doLogic();
+    updateModule(this.id);
   }
 
-  doLogic() {
-    this.outputs.forEach((output) => {
-      return state.modules.find((module) => {
-        return module.id === output;
-      })?.doLogic();
-    });
-  }
+  doLogic() {}
 }
 
 export default ButtonModule;

@@ -2,6 +2,7 @@ import { remove } from '@reverse/array';
 import { mouse } from 'easy-web-input';
 
 import { getMouseGridPos } from '../utils/mouse';
+import { updateModule } from './update';
 
 import { state } from './logic';
 import { mousePos } from './input';
@@ -55,6 +56,8 @@ export function checkWiring() {
 
         startingModule.doLogic();
         endingModule.doLogic();
+        updateModule(startingModule.id);
+        updateModule(endingModule.id);
       }
     }
 }

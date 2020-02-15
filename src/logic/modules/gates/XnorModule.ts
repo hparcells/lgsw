@@ -1,8 +1,6 @@
 import Module from '../../../types/Module';
 import { ModuleAcceptance } from '../../../types/types';
 
-import { updateModules } from '../../update';
-
 import { state } from '../../logic';
 import { ctx } from '../../canvas';
 
@@ -63,9 +61,6 @@ class XnorModule extends Module {
   doLogic(originId: string) {
     // Update this state.
     this.on = this.getExpectedState();
-
-    // Update all connected modules.
-    updateModules(this.id, this.outputs, originId);
   }
 }
 
