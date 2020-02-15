@@ -10,7 +10,10 @@ import { MouseCoordinates } from '../types/types';
 import { state } from './logic';
 
 import SwitchModule from './modules/inputs/SwitchModule';
+import ClockModule from './modules/inputs/ClockModule';
+
 import LampModule from './modules/outputs/LampModule';
+
 import AndModule from './modules/gates/AndModule';
 import NandModule from './modules/gates/NandModule';
 import OrModule from './modules/gates/OrModule';
@@ -62,6 +65,10 @@ export default function doInput() {
     toggleWiring();
   }
 
+  if(keyboard.BackquotePressed) {
+    state.moduleInHand = ClockModule;
+    disableWiring();
+  }
   // Check for module hotkeys pressed.
   if(keyboard.Digit1Pressed) {
     state.moduleInHand = SwitchModule;

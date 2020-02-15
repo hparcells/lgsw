@@ -1,16 +1,15 @@
 import Module from '../../../types/Module';
+
 import { ModuleAcceptance } from '../../../types/types';
 
-import { updateModules } from '../../update';
-
-import { state } from '../../logic';
 import { ctx } from '../../canvas';
+import { state } from '../../logic';
 
-class NotModule extends Module {
+class ClockModule extends Module {
   accepts: ModuleAcceptance = {
     input: {
-      accept: true,
-      count: 1
+      accept: false,
+      count: 0
     },
     output: {
       accept: true,
@@ -19,7 +18,7 @@ class NotModule extends Module {
   }
 
   constructor(x: number, y: number) {
-    super('not');
+    super('clock');
 
     this.x = x;
     this.y = y;
@@ -39,27 +38,27 @@ class NotModule extends Module {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.translate(state.gridSize / 2, state.gridSize / 2);
-    ctx.fillStyle = '#27CF46';
-    ctx.font = 'bold 20px sans-serif';
-    ctx.fillText('NOT', 0, 0);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 14px sans-serif';
+    ctx.fillText('CLOCK', 0, 0);
 
     ctx.restore();
 
     ctx.restore();
+
+    this.doLogic();
   }
 
   onClick() {}
+  doLogic() {
+    this.on = !!(Math.floor((Date.now() / 1000)) % 2);
 
-  doLogic(originId?: string) {
-    this.on = !this.inputs.map((id) => {
+    this.outputs.forEach((output) => {
       return state.modules.find((module) => {
-        return module.id === id;
-      });
-    })[0]?.on;
-
-    // Update all connected modules.
-    updateModules(this.id, this.outputs, originId);
+        return module.id === output;
+      })?.doLogic();
+    });
   }
 }
 
-export default NotModule;
+export default ClockModule;

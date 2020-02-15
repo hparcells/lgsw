@@ -9,10 +9,14 @@ import NorModule from '../logic/modules/gates/NorModule';
 import NotModule from '../logic/modules/gates/NotModule';
 import XorModule from '../logic/modules/gates/XorModules';
 import XnorModule from '../logic/modules/gates/XnorModule';
+import ClockModule from '../logic/modules/inputs/ClockModule';
 
 const MODULE_MAP = {
   switch: SwitchModule,
+  clock: ClockModule,
+
   lamp: LampModule,
+
   and: AndModule,
   nand: NandModule,
   or: OrModule,

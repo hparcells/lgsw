@@ -1,6 +1,6 @@
 {
   "name": "lgsw",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "private": true,
   "dependencies": {
     "@reverse/array": "^1.7.3",
