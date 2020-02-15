@@ -16,6 +16,8 @@ import NandModule from './modules/gates/NandModule';
 import OrModule from './modules/gates/OrModule';
 import NorModule from './modules/gates/NorModule';
 import NotModule from './modules/gates/NotModule';
+import XorModule from './modules/gates/XorModules';
+import XnorModule from './modules/gates/XnorModule';
 
 export let mousePos: MouseCoordinates;
 
@@ -87,6 +89,14 @@ export default function doInput() {
   }
   if(keyboard.Digit5Pressed) {
     state.moduleInHand = NotModule;
+    disableWiring();
+  }
+  if(keyboard.Digit6Pressed) {
+    if(keyboard.Shift) {
+      state.moduleInHand = XnorModule;
+    }else {
+      state.moduleInHand = XorModule;
+    }
     disableWiring();
   }
 
