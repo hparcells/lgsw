@@ -5,6 +5,14 @@ import { SaveFormat, GameState } from '../types/types';
 
 import { state } from './logic';
 
+function isSaveFormat(save: any) {
+  return 'version' in save
+  && 'camera' in save
+  && 'modules' in save
+  && 'gridSize' in save
+  && 'moduleInHand' in save;
+}
+
 export function toSaveFormat() {
   const save: SaveFormat = {
     version: 1,
@@ -30,13 +38,18 @@ export function toSaveFormat() {
   return save;
 }
 export function loadSave(loadedSave: SaveFormat) {
+  if(!isSaveFormat(loadedSave)) {
+    window.alert('Inputted save is not parsable. If you feel this is wrong open an issue at https://github.com/hparcells/lgsw/issues/.\n\nError Code: 2.');
+    return;
+  }
+
   const save: GameState = {
     camera: loadedSave.camera,
     modules: [],
     gridSize: loadedSave.gridSize,
     moduleInHand: loadedSave.moduleInHand
   }
-
+  
   // Modules
   loadedSave.modules.forEach((module) => {
     const moduleClass = getModuleFromString(module.type);

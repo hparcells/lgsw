@@ -49,6 +49,10 @@ class NotModule extends Module {
   onClick() {}
 
   getExpectedState() {
+    if(this.inputs.length === 0) {
+      return true;
+    }
+
     return !this.inputs.map((id) => {
       return state.modules.find((module) => {
         return module.id === id;

@@ -1,6 +1,8 @@
 import { keyboard, mouse } from 'easy-web-input';
 import { remove } from '@reverse/array';
 import { saveAs } from 'file-saver';
+import isJSON from 'is-json';
+import isBase64 from 'is-base64';
 
 import getModuleFromString from '../utils/get-module';
 import { getMouseGridPos } from '../utils/mouse';
@@ -119,10 +121,17 @@ export default function doInput() {
   if(keyboard.iPressed) {
     const save = window.prompt('Paste below your save data.');
 
+    if(save && isBase64(save)) {
+      const decoded = window.atob(save);
 
-    if(save) {
-      loadSave(JSON.parse(window.atob(save)));
+      if(isJSON(decoded)) {
+        loadSave(JSON.parse(decoded));
+        
+        return;
+      }
     }
+
+    window.alert('Inputted save is not parsable. If you feel this is wrong open an issue at https://github.com/hparcells/lgsw/issues/.\n\nError Code: 1.');
   }
   if(keyboard.oPressed) {
     const save = new Blob([window.btoa(JSON.stringify(toSaveFormat()))], {type: 'text/plain;charset=utf-8'});
@@ -135,7 +144,10 @@ export default function doInput() {
       if(!state.modules.find((module) => {
         return module.x === mousePos.x && module.y === mousePos.y;
       })) {
-        state.modules.push(new state.moduleInHand(mousePos.x, mousePos.y));
+        const placedModule = new state.moduleInHand(mousePos.x, mousePos.y);
+        state.modules.push(placedModule);
+
+        updateModule(placedModule.id);
       }
     }else if(!isWiring) {
       const interactedModule = state.modules.find((moudle) => {
