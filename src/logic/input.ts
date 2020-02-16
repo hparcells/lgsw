@@ -1,10 +1,12 @@
 import { keyboard, mouse } from 'easy-web-input';
 import { remove } from '@reverse/array';
+import { saveAs } from 'file-saver';
 
 import getModuleFromString from '../utils/get-module';
 import { getMouseGridPos } from '../utils/mouse';
 import { disableWiring, toggleWiring, isWiring } from './wiring';
 import { updateModule } from './update';
+import { toSaveFormat, loadSave } from './saving';
 
 import { MouseCoordinates } from '../types/types';
 
@@ -53,7 +55,7 @@ export default function doInput() {
       });
 
       if(hoveredMoudle) {
-        state.moduleInHand = getModuleFromString(hoveredMoudle.moduleName);
+        state.moduleInHand = getModuleFromString(hoveredMoudle.type);
       }
     }
 
@@ -119,11 +121,13 @@ export default function doInput() {
 
 
     if(save) {
-      // TODO:
+      loadSave(JSON.parse(window.atob(save)));
     }
   }
   if(keyboard.oPressed) {
-    window.prompt('This is your save data. Press \'I\' when you return to load this session.', window.btoa(JSON.stringify(state)));
+    const save = new Blob([window.btoa(JSON.stringify(toSaveFormat()))], {type: 'text/plain;charset=utf-8'});
+
+    saveAs(save, `lgsw-${new Date().toISOString()}.txt`);
   }
 
   if(mouse.leftPressed) {

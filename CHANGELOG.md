@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-alpha.4] - 2020-02-16
+### Additions
+- Saving and loading. Press `O` to save your game to a text file. Press `I` to load your game through the contents of the text file.
+
 ## [1.0.0-alpha.3] - 2020-02-15
 ### Additions
 - Speed control for clock. Not customizable yet.
