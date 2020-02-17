@@ -1,8 +1,10 @@
 import { shouldDrawHoveredTile } from './wiring';
+
 import { state } from './logic';
 import { ctx, canvas } from './canvas';
 import { mousePos } from './input';
 import { GRID_COLOR_1, GRID_COLOR_2 } from './constants';
+import { version } from '../../package.json';
 
 export function cleanCanvas() {
   // Clean the entire canvas.
@@ -65,4 +67,14 @@ export function renderObjects() {
   state.modules.forEach((object) => {
     return object.render();
   });
+}
+
+export function renderOverlay() {
+  ctx.fillStyle = '#000000';
+
+  ctx.font = '12px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'bottom';
+
+  ctx.fillText(`v${version}`, 3, canvas.height);
 }

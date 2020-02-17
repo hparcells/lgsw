@@ -17,9 +17,9 @@ export function getMouseGridPos(x: number = mouse.x, y: number = mouse.y) {
     Math.floor((y - cy) / (state.gridSize * state.camera.scale)) * (state.gridSize * state.camera.scale)
   ) / state.camera.scale;
 
-  // Convert to tiles.
-  mousePos.x = mousePos.x / state.gridSize;
-  mousePos.y = mousePos.y / state.gridSize;
+  // Convert to tiles and round.
+  mousePos.x = Math.round(mousePos.x / state.gridSize);
+  mousePos.y = Math.round(mousePos.y / state.gridSize);
 
   return mousePos;
 }
