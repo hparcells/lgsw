@@ -1,10 +1,14 @@
 import { keyboard, mouse } from 'easy-web-input';
 import { remove } from '@reverse/array';
+import { saveAs } from 'file-saver';
+import isJSON from 'is-json';
+import isBase64 from 'is-base64';
 
 import getModuleFromString from '../utils/get-module';
 import { getMouseGridPos } from '../utils/mouse';
 import { disableWiring, toggleWiring, isWiring } from './wiring';
 import { updateModule } from './update';
+import { toSaveFormat, loadSave } from './saving';
 
 import { MouseCoordinates } from '../types/types';
 
@@ -53,7 +57,7 @@ export default function doInput() {
       });
 
       if(hoveredMoudle) {
-        state.moduleInHand = getModuleFromString(hoveredMoudle.moduleName);
+        state.moduleInHand = getModuleFromString(hoveredMoudle.type);
       }
     }
 
@@ -117,13 +121,22 @@ export default function doInput() {
   if(keyboard.iPressed) {
     const save = window.prompt('Paste below your save data.');
 
+    if(save && isBase64(save)) {
+      const decoded = window.atob(save);
 
-    if(save) {
-      // TODO:
+      if(isJSON(decoded)) {
+        loadSave(JSON.parse(decoded));
+        
+        return;
+      }
     }
+
+    window.alert('Inputted save is not parsable. If you feel this is wrong open an issue at https://github.com/hparcells/lgsw/issues/.\n\nError Code: 1.');
   }
   if(keyboard.oPressed) {
-    window.prompt('This is your save data. Press \'I\' when you return to load this session.', window.btoa(JSON.stringify(state)));
+    const save = new Blob([window.btoa(JSON.stringify(toSaveFormat()))], {type: 'text/plain;charset=utf-8'});
+
+    saveAs(save, `lgsw-${new Date().toISOString()}.txt`);
   }
 
   if(mouse.leftPressed) {
@@ -131,7 +144,10 @@ export default function doInput() {
       if(!state.modules.find((module) => {
         return module.x === mousePos.x && module.y === mousePos.y;
       })) {
-        state.modules.push(new state.moduleInHand(mousePos.x, mousePos.y));
+        const placedModule = new state.moduleInHand(mousePos.x, mousePos.y);
+        state.modules.push(placedModule);
+
+        updateModule(placedModule.id);
       }
     }else if(!isWiring) {
       const interactedModule = state.modules.find((moudle) => {

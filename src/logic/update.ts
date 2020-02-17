@@ -18,18 +18,24 @@ function updateModuleQueue() {
     if(!module) {
       return;
     }
-
+    // If we haven't updated this module yet.
     if(!updatedModules.includes(module.id)) {
-      nextModuleUpdateQueue = nextModuleUpdateQueue.concat(module.outputs);
-      updatedModules.push(module.id);
-      
-      return module.doLogic();
+      // If the state differs.
+      if(module.getExpectedState() !== module.on) {
+        // Update it.
+        nextModuleUpdateQueue = nextModuleUpdateQueue.concat(module.outputs);
+        updatedModules.push(module.id);
+        
+        return module.doLogic();
+      }
     }else {
-      if(lastModuleUpdateQueue.includes(module.id)) {
-        if(module.getExpectedState() !== module.on) {
-          if(!pendingFrameUpdateQueue.includes(module.id)) {
-            pendingFrameUpdateQueue.push(module.id);
-          }
+      // If we have updated this module this frame.
+
+      // If the state will be different next frame.
+      if(module.getExpectedState() !== module.on) {
+        // If updated this module last time.
+        if(lastModuleUpdateQueue.includes(module.id)) {
+          pendingFrameUpdateQueue.push(module.id);
         }
       }
     }
@@ -38,8 +44,9 @@ function updateModuleQueue() {
   lastModuleUpdateQueue = moduleUpdateQueue;
   moduleUpdateQueue = unique(nextModuleUpdateQueue);
   nextModuleUpdateQueue = [];
-
+  
   if(moduleUpdateQueue.length > 0) {
+    pendingFrameUpdateQueue = unique(pendingFrameUpdateQueue);
     updateModuleQueue();
   }else {
     lastModuleUpdateQueue = [];
@@ -50,16 +57,9 @@ function updateModuleQueue() {
 }
 
 export function updatePendingModules() {
-  pendingFrameUpdateQueue.map((moduleId) => {
-    return state.modules.find((module) => {
-      return module.id === moduleId;
-    });
-  }).forEach((module) => {
-    if(module) {
-      module.doLogic();
-      updateModule(module.id);
-    }
-  });
+  moduleUpdateQueue = moduleUpdateQueue.concat(pendingFrameUpdateQueue);
+
+  updateModuleQueue();
 
   pendingFrameUpdateQueue = [];
 }

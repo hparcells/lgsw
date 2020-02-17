@@ -40,6 +40,7 @@ export function checkWiring() {
     if(
       (startingModule && endingModule)
       && (startingModule.accepts.output.accept && endingModule.accepts.input.accept)
+      && (startingModule.id !== endingModule.id)
     ) {
       // If they are already connected.
       if(startingModule.outputs.includes(endingModule.id) && endingModule.inputs.includes(startingModule.id)) {
@@ -54,9 +55,6 @@ export function checkWiring() {
           endingModule.inputs.push(startingModule.id);
         }
 
-        startingModule.doLogic();
-        endingModule.doLogic();
-        updateModule(startingModule.id);
         updateModule(endingModule.id);
       }
     }

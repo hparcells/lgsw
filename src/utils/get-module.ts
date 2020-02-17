@@ -1,4 +1,4 @@
-import { ModuleString } from '../types/types';
+import { ModuleType } from '../types/types';
 
 import SwitchModule from '../logic/modules/inputs/SwitchModule';
 import ButtonModule from '../logic/modules/inputs/ButtonModule';
@@ -30,6 +30,6 @@ const MODULE_MAP = {
   xnor: XnorModule
 }
 
-export default function getModuleFromString(module: ModuleString) {
+export default function getModuleFromString(module: ModuleType) {
   return MODULE_MAP[module];
 }

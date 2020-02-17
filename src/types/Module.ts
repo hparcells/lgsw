@@ -1,11 +1,11 @@
 import uuid from 'uuid';
 
-import { ModuleString, ModuleAcceptance } from './types';
+import { ModuleType, ModuleAcceptance } from './types';
 
 import RenderableObject from './RenderableObject';
 
 abstract class Module extends RenderableObject {
-  moduleName: ModuleString;
+  type: ModuleType;
   id: string;
   on: boolean = false;
 
@@ -14,10 +14,10 @@ abstract class Module extends RenderableObject {
 
   abstract accepts: ModuleAcceptance = null as any;
   
-  constructor(moduleName: ModuleString) {
+  constructor(moduleName: ModuleType) {
     super();
 
-    this.moduleName = moduleName;
+    this.type = moduleName;
     this.id = uuid()
   }
 
