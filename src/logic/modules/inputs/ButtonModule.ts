@@ -31,8 +31,9 @@ class ButtonModule extends Module {
   render() {
     if(Date.now() > this.onTime + 10 && this.on) {
       this.on = false;
-      this.doLogic();
+      updateModule(this.id);
     }
+
     ctx.save();
     ctx.translate(this.x * state.gridSize, this.y * state.gridSize);
     
