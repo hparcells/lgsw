@@ -47,7 +47,7 @@ export interface GameState {
   /** The moudle on the cursor. */
   inHand: SaveModule[];
 }
-interface SaveModule {
+export interface SaveModule {
   type: ModuleType;
   id: string;
 

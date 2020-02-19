@@ -11,7 +11,7 @@ import { disableWiring, toggleWiring, isWiring } from './wiring';
 import { updateModule } from './update';
 import { toSaveFormat, loadSave } from './saving';
 
-import { MouseCoordinates } from '../types/types';
+import { MouseCoordinates, SaveModule } from '../types/types';
 
 import { state } from './logic';
 
@@ -267,7 +267,8 @@ export default function doInput() {
       if(!state.modules.find((module) => {
         return module.x === mousePos.x && module.y === mousePos.y;
       })) {
-        let placementQueue = [...state.inHand];
+        let placementQueue: SaveModule[] = JSON.parse(JSON.stringify(state.inHand));
+
         const idMap: { [type: string]: string } = {};
 
         // Generate new Ids.
