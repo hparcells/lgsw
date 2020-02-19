@@ -3,6 +3,7 @@ import { remove } from '@reverse/array';
 import { saveAs } from 'file-saver';
 import isJSON from 'is-json';
 import isBase64 from 'is-base64';
+import uuid from 'uuid';
 
 import getModuleFromString from '../utils/get-module';
 import { getMouseGridPos } from '../utils/mouse';
@@ -13,20 +14,6 @@ import { toSaveFormat, loadSave } from './saving';
 import { MouseCoordinates } from '../types/types';
 
 import { state } from './logic';
-
-import SwitchModule from './modules/inputs/SwitchModule';
-import ClockModule from './modules/inputs/ClockModule';
-import ButtonModule from './modules/inputs/ButtonModule';
-
-import LampModule from './modules/outputs/LampModule';
-
-import AndModule from './modules/gates/AndModule';
-import NandModule from './modules/gates/NandModule';
-import OrModule from './modules/gates/OrModule';
-import NorModule from './modules/gates/NorModule';
-import NotModule from './modules/gates/NotModule';
-import XorModule from './modules/gates/XorModules';
-import XnorModule from './modules/gates/XnorModule';
 
 export let mousePos: MouseCoordinates;
 
@@ -49,15 +36,23 @@ export default function doInput() {
 
   // Check for deselect input.
   if(keyboard.qPressed) {
-    if(state.moduleInHand) {
-      state.moduleInHand = null;
+    if(state.inHand.length > 0) {
+      state.inHand = [];
     }else {
       const hoveredMoudle = state.modules.find((module) => {
         return module.x === mousePos.x && module.y === mousePos.y;
       });
 
       if(hoveredMoudle) {
-        state.moduleInHand = getModuleFromString(hoveredMoudle.type);
+        state.inHand.push({
+          type: hoveredMoudle.type,
+          id: '0',
+          x: 0,
+          y: 0,
+          on: false,
+          inputs: [],
+          outputs: []
+        });
       }
     }
 
@@ -66,55 +61,183 @@ export default function doInput() {
 
   // Check for wire input.
   if(keyboard.ePressed) {
-    state.moduleInHand = null;
+    state.inHand = [];
 
     toggleWiring();
   }
 
   if(keyboard.BackquotePressed) {
-    state.moduleInHand = ClockModule;
+    state.inHand = [];
+
+    state.inHand.push({
+      type: 'clock',
+      id: '0',
+      x: 0,
+      y: 0,
+      on: false,
+      inputs: [],
+      outputs: []
+    });
     disableWiring();
   }
   // Check for module hotkeys pressed.
   if(keyboard.Digit1Pressed) {
+    state.inHand = [];
+
     if(keyboard.Shift) {
-      state.moduleInHand = ButtonModule;
+      state.inHand.push({
+        type: 'button',
+        id: '0',
+        x: 0,
+        y: 0,
+        on: false,
+        inputs: [],
+        outputs: []
+      });
     }else {
-      state.moduleInHand = SwitchModule;
+      state.inHand.push({
+        type: 'switch',
+        id: '0',
+        x: 0,
+        y: 0,
+        on: false,
+        inputs: [],
+        outputs: []
+      });
     }
     disableWiring();
   }
   if(keyboard.Digit2Pressed) {
-    state.moduleInHand = LampModule;
+    state.inHand = [];
+
+    state.inHand.push({
+      type: 'lamp',
+      id: '0',
+      x: 0,
+      y: 0,
+      on: false,
+      inputs: [],
+      outputs: []
+    });
     disableWiring();
   }
   if(keyboard.Digit3Pressed) {
+    state.inHand = [];
+
     if(keyboard.Shift) {
-      state.moduleInHand = NandModule;
+      state.inHand.push({
+        type: 'nand',
+        id: '0',
+        x: 0,
+        y: 0,
+        on: false,
+        inputs: [],
+        outputs: []
+      });
     }else {
-      state.moduleInHand = AndModule;
+      state.inHand.push({
+        type: 'and',
+        id: '0',
+        x: 0,
+        y: 0,
+        on: false,
+        inputs: [],
+        outputs: []
+      });
     }
     disableWiring();
   }
   if(keyboard.Digit4Pressed) {
+    state.inHand = [];
+
     if(keyboard.Shift) {
-      state.moduleInHand = NorModule;
+      state.inHand.push({
+        type: 'nor',
+        id: '0',
+        x: 0,
+        y: 0,
+        on: false,
+        inputs: [],
+        outputs: []
+      });
     }else {
-      state.moduleInHand = OrModule;
+      state.inHand.push({
+        type: 'or',
+        id: '0',
+        x: 0,
+        y: 0,
+        on: false,
+        inputs: [],
+        outputs: []
+      });
     }
     disableWiring();
   }
   if(keyboard.Digit5Pressed) {
-    state.moduleInHand = NotModule;
+    state.inHand = [];
+
+    state.inHand.push({
+      type: 'not',
+      id: '0',
+      x: 0,
+      y: 0,
+      on: false,
+      inputs: [],
+      outputs: []
+    });
     disableWiring();
   }
   if(keyboard.Digit6Pressed) {
+    state.inHand = [];
+
     if(keyboard.Shift) {
-      state.moduleInHand = XnorModule;
+      state.inHand.push({
+        type: 'xnor',
+        id: '0',
+        x: 0,
+        y: 0,
+        on: false,
+        inputs: [],
+        outputs: []
+      });
     }else {
-      state.moduleInHand = XorModule;
+      state.inHand.push({
+        type: 'xor',
+        id: '0',
+        x: 0,
+        y: 0,
+        on: false,
+        inputs: [],
+        outputs: []
+      });
     }
     disableWiring();
+  }
+
+  if(keyboard.Digit7Pressed) {
+    state.inHand = [];
+
+    state.inHand.push({
+      type: 'not',
+      id: '0',
+      x: 0,
+      y: 0,
+      on: false,
+      inputs: [],
+      outputs: ['1']
+    });
+    state.inHand.push({
+      type: 'not',
+      id: '1',
+      x: 1,
+      y: 1,
+      on: false,
+      inputs: ['0'],
+      outputs: []
+    });
+
+    disableWiring();
+    
   }
 
   // Saving and loading.
@@ -134,20 +257,67 @@ export default function doInput() {
     window.alert('Inputted save is not parsable. If you feel this is wrong open an issue at https://github.com/hparcells/lgsw/issues/.\n\nError Code: 1.');
   }
   if(keyboard.oPressed) {
-    const save = new Blob([window.btoa(JSON.stringify(toSaveFormat()))], {type: 'text/plain;charset=utf-8'});
+    const save = new Blob([window.btoa(JSON.stringify(toSaveFormat()))], { type: 'text/plain;charset=utf-8' });
 
     saveAs(save, `lgsw-${new Date().toISOString()}.txt`);
   }
 
   if(mouse.leftPressed) {
-    if(state.moduleInHand) {
+    if(state.inHand.length > 0) {
       if(!state.modules.find((module) => {
         return module.x === mousePos.x && module.y === mousePos.y;
       })) {
-        const placedModule = new state.moduleInHand(mousePos.x, mousePos.y);
-        state.modules.push(placedModule);
+        let placementQueue = [...state.inHand];
+        const idMap: { [type: string]: string } = {};
 
-        updateModule(placedModule.id);
+        // Generate new Ids.
+        placementQueue.forEach((queuedModule) => {
+          idMap[queuedModule.id] = uuid();
+        });
+
+        // Update references and stuff.
+        placementQueue.forEach((queuedModule, index) => {
+          // Update inputs.
+          queuedModule.inputs.map((inputId) => {
+            return placementQueue.find((queueModule) => {
+              return queueModule.id === inputId;
+            });
+          }).forEach((inputModule) => {
+            if(inputModule) {
+              const moduleIdIndex = inputModule.outputs.indexOf(placementQueue[index].id);
+              return inputModule.outputs[moduleIdIndex] = idMap[queuedModule.id];
+            }
+          });
+
+          // Update outputs.
+          queuedModule.outputs.map((outputId) => {
+            return placementQueue.find((queueModule) => {
+              return queueModule.id === outputId;
+            });
+          }).forEach((outputModule) => {
+            if(outputModule) {
+              const moduleIdIndex = outputModule.inputs.indexOf(placementQueue[index].id);
+              
+              return outputModule.inputs[moduleIdIndex] = idMap[queuedModule.id];
+            }
+          });
+
+          queuedModule.id = idMap[queuedModule.id];
+        });
+
+        // Place them.
+        placementQueue.forEach((queuedModule) => {
+          const moduleClass = getModuleFromString(queuedModule.type);
+          const placedModule = new moduleClass(mousePos.x + queuedModule.x, mousePos.y + queuedModule.y);
+
+          placedModule.id = queuedModule.id;
+          placedModule.inputs = queuedModule.inputs;
+          placedModule.outputs = queuedModule.outputs;
+
+          
+          state.modules.push(placedModule);
+          updateModule(placedModule.id);
+        });
       }
     }else if(!isWiring) {
       const interactedModule = state.modules.find((moudle) => {

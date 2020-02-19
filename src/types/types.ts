@@ -44,9 +44,8 @@ export interface GameState {
   modules: Module[];
   /** The size of each of the tiles. Should not change. */
   gridSize: number;
-  // TODO: Figure this out.
   /** The moudle on the cursor. */
-  moduleInHand: any | null;
+  inHand: SaveModule[];
 }
 interface SaveModule {
   type: ModuleType;
@@ -65,5 +64,5 @@ export interface SaveFormat {
   camera: Camera;
   modules: SaveModule[];
   gridSize: number;
-  moduleInHand: ModuleType;
+  inHand: SaveModule[];
 }

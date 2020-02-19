@@ -1,5 +1,7 @@
 import { shouldDrawHoveredTile } from './wiring';
 
+import getModuleFromString from '../utils/get-module';
+
 import { state } from './logic';
 import { ctx, canvas } from './canvas';
 import { mousePos } from './input';
@@ -43,11 +45,16 @@ export function renderGrid() {
 }
 
 export function renderCursor() {
-  if(state.moduleInHand) {
+  if(state.inHand.length > 0) {
     ctx.globalAlpha = 0.5;
+
+    state.inHand.forEach((module) => {
+      const moduleClass = getModuleFromString(module.type);
+
+      // Render the moudle in hand.
+      new moduleClass(mousePos.x + module.x, mousePos.y + module.y).render();
+    });
     
-    // Render the moudle in hand.
-    new state.moduleInHand(mousePos.x, mousePos.y).render();
     
     ctx.globalAlpha = 1;
   }else if(shouldDrawHoveredTile) {
