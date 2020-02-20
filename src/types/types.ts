@@ -2,6 +2,8 @@ import Module from './Module';
 
 /** All the modules. */
 export type ModuleType = 'switch' | 'button' | 'clock' | 'lamp' | 'and' | 'nand' | 'or' | 'nor' | 'not' | 'xor' | 'xnor';
+type ModeOption = 'normal' | 'wiring' | 'copy';
+
 /** Version for loading and saving. */
 type SaveVersion = 1;
 
@@ -46,6 +48,8 @@ export interface GameState {
   gridSize: number;
   /** The moudle on the cursor. */
   inHand: SaveModule[];
+  /** Current cursor mode. */
+  mode: ModeOption;
 }
 export interface SaveModule {
   type: ModuleType;
@@ -65,4 +69,5 @@ export interface SaveFormat {
   modules: SaveModule[];
   gridSize: number;
   inHand: SaveModule[];
+  mode: ModeOption;
 }

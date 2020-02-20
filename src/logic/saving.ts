@@ -19,7 +19,8 @@ export function toSaveFormat() {
     camera: state.camera,
     modules: [],
     gridSize: state.gridSize,
-    inHand: state.inHand
+    inHand: state.inHand,
+    mode: state.mode
   };
 
   // Modules
@@ -47,7 +48,8 @@ export function loadSave(loadedSave: SaveFormat) {
     camera: loadedSave.camera,
     modules: [],
     gridSize: loadedSave.gridSize,
-    inHand: loadedSave.inHand
+    inHand: loadedSave.inHand,
+    mode: loadedSave.mode
   }
   
   // Modules

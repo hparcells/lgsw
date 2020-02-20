@@ -19,7 +19,8 @@ export let state: GameState = {
   },
   modules: [],
   gridSize: 64,
-  inHand: []
+  inHand: [],
+  mode: 'normal'
 }
 
 export function setState(newState: GameState) {

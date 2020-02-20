@@ -1,5 +1,3 @@
-import { shouldDrawHoveredTile } from './wiring';
-
 import getModuleFromString from '../utils/get-module';
 
 import { state } from './logic';
@@ -57,7 +55,7 @@ export function renderCursor() {
     
     
     ctx.globalAlpha = 1;
-  }else if(shouldDrawHoveredTile) {
+  }else if(state.mode === 'normal') {
     ctx.fillStyle = 'rgba(0, 255, 0, 0.25)';
 
     ctx.fillRect(
