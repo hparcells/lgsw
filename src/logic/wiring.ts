@@ -8,25 +8,14 @@ import { state } from './logic';
 import { mousePos } from './input';
 import { ctx } from './canvas';
 
-export let shouldDrawHoveredTile = true;
-export let isWiring = false;
-
 let startClick = { x: 0, y: 0 };
 
-export function disableWiring() {
-  isWiring = false;
-  shouldDrawHoveredTile = true;
-}
-export function toggleWiring() {
-  isWiring = !isWiring;
-  shouldDrawHoveredTile = !shouldDrawHoveredTile;
-}
 export function checkWiring() {
   if(mouse.leftPressed) {
     startClick.x = mouse.x;
     startClick.y = mouse.y;
   }
-  if(mouse.leftReleased && isWiring) {
+  if(mouse.leftReleased && state.mode === 'wiring') {
     const startingMousePos = getMouseGridPos(startClick.x, startClick.y);
 
     const startingModule = state.modules.find((moudle) => {
@@ -64,7 +53,7 @@ export function renderWireAction() {
   ctx.globalAlpha = state.camera.wireOpacity;
 
   if(mouse.left) {
-    if(isWiring) {
+    if(state.mode === 'wiring') {
       ctx.save();
   
       ctx.strokeStyle = '#FF0000';

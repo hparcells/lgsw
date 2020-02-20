@@ -2,6 +2,8 @@ import Module from './Module';
 
 /** All the modules. */
 export type ModuleType = 'switch' | 'button' | 'clock' | 'lamp' | 'and' | 'nand' | 'or' | 'nor' | 'not' | 'xor' | 'xnor';
+type ModeOption = 'normal' | 'wiring' | 'copy' | 'cut' | 'delete';
+
 /** Version for loading and saving. */
 type SaveVersion = 1;
 
@@ -44,11 +46,14 @@ export interface GameState {
   modules: Module[];
   /** The size of each of the tiles. Should not change. */
   gridSize: number;
-  // TODO: Figure this out.
   /** The moudle on the cursor. */
-  moduleInHand: any | null;
+  inHand: SaveModule[];
+  /** Current cursor mode. */
+  mode: ModeOption;
+  /** Current clipboard. */
+  clipboard: SaveModule[];
 }
-interface SaveModule {
+export interface SaveModule {
   type: ModuleType;
   id: string;
 
@@ -65,5 +70,7 @@ export interface SaveFormat {
   camera: Camera;
   modules: SaveModule[];
   gridSize: number;
-  moduleInHand: ModuleType;
+  inHand: SaveModule[];
+  mode: ModeOption;
+  clipboard: SaveModule[];
 }

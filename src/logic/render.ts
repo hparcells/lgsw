@@ -1,8 +1,10 @@
-import { shouldDrawHoveredTile } from './wiring';
+import { mouse } from 'easy-web-input';
+
+import getModuleFromString from '../utils/get-module';
 
 import { state } from './logic';
 import { ctx, canvas } from './canvas';
-import { mousePos } from './input';
+import { mousePos, startDragPos } from './input';
 import { GRID_COLOR_1, GRID_COLOR_2 } from './constants';
 import { version } from '../../package.json';
 
@@ -43,14 +45,19 @@ export function renderGrid() {
 }
 
 export function renderCursor() {
-  if(state.moduleInHand) {
+  if(state.inHand.length > 0) {
     ctx.globalAlpha = 0.5;
+
+    state.inHand.forEach((module) => {
+      const moduleClass = getModuleFromString(module.type);
+
+      // Render the moudle in hand.
+      new moduleClass(mousePos.x + module.x, mousePos.y + module.y).render();
+    });
     
-    // Render the moudle in hand.
-    new state.moduleInHand(mousePos.x, mousePos.y).render();
     
     ctx.globalAlpha = 1;
-  }else if(shouldDrawHoveredTile) {
+  }else if(state.mode === 'normal') {
     ctx.fillStyle = 'rgba(0, 255, 0, 0.25)';
 
     ctx.fillRect(
@@ -59,6 +66,23 @@ export function renderCursor() {
       state.gridSize,
       state.gridSize
     );
+  }else if(state.mode === 'copy' || state.mode === 'cut' || state.mode === 'delete') {
+    ctx.fillStyle = 'rgba(0, 255, 0, 0.25)';
+
+    if(mouse.left) {
+      ctx.fillRect(
+        startDragPos.x * state.gridSize,
+        startDragPos.y * state.gridSize,
+        state.gridSize,
+        state.gridSize
+      );
+      ctx.fillRect(
+        mousePos.x * state.gridSize,
+        mousePos.y * state.gridSize,
+        state.gridSize,
+        state.gridSize
+      );
+    }
   }
 }
 
