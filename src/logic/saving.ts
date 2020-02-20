@@ -1,19 +1,32 @@
 import { setState } from './logic';
 import getModuleFromString from '../utils/get-module';
 
-import { SaveFormat, GameState } from '../types/types';
+import { SaveFormat, GameState, SaveModule } from '../types/types';
+import Module from '../types/Module';
 
 import { state } from './logic';
 
 function isSaveFormat(save: any) {
   return 'version' in save
-  && 'camera' in save
-  && 'modules' in save
-  && 'gridSize' in save
-  && 'moduleInHand' in save;
+    && 'camera' in save
+    && 'modules' in save
+    && 'gridSize' in save
+    && 'moduleInHand' in save;
 }
 
-export function toSaveFormat() {
+export function toSaveModule(module: Module): SaveModule {
+  return {
+    type: module.type,
+    id: module.id,
+    x: module.x,
+    y: module.y,
+    on: module.on,
+    inputs: module.inputs,
+    outputs: module.outputs
+  };
+}
+
+export function toSaveFormat(): SaveFormat {
   const save: SaveFormat = {
     version: 1,
     camera: state.camera,
@@ -25,15 +38,7 @@ export function toSaveFormat() {
 
   // Modules
   state.modules.forEach((module) => {
-    save.modules.push({
-      type: module.type,
-      id: module.id,
-      x: module.x,
-      y: module.y,
-      on: module.on,
-      inputs: module.inputs,
-      outputs: module.outputs
-    });
+    save.modules.push(toSaveModule(module));
   });
 
   return save;

@@ -75,7 +75,7 @@ export default function doInput() {
           placedModule.id = queuedModule.id;
           placedModule.inputs = queuedModule.inputs;
           placedModule.outputs = queuedModule.outputs;
-
+          placedModule.on = queuedModule.on;
           
           state.modules.push(placedModule);
           updateModule(placedModule.id);
@@ -86,6 +86,9 @@ export default function doInput() {
         return moudle.x === mousePos.x && moudle.y === mousePos.y;
       });
       interactedModule?.onClick();
+    }else if(state.mode === 'copy') {
+      startDragPos.x = mousePos.x;
+      startDragPos.y = mousePos.y;
     }
   }
 
@@ -157,6 +160,8 @@ export default function doInput() {
     }
   }
   if(keyboard.cPressed) {
+    state.inHand = [];
+
     if(state.mode === 'copy') {
       state.mode = 'normal';
     }else {
