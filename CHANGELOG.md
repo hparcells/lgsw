@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Alpha [2020-02-15 - Present]
+### [1.0.0-alpha.6] - 2020-02-20
+### Additions
+- Copying. Press `Ctrl + C` to copy a selection. Then press `Ctrl + V` to recall it.
+- Cuting. Press `Ctrl + X` to select an area. That area gets removed then placed in your clipboard.
+- Mass deleting. Press `Ctrl + Z` to select an area. That area will be removed.
+
+### Known Issues
+- Connecting three NOT gates together won't work as expected.
+- Cuting a selection will randomize the IDs on paste.
+- Switches that are on will not be displayed as on when in your hand.
+
 ### [1.0.0-alpha.5] - 2020-02-17
 #### Additions
 - Displays running version in the bottom left.
