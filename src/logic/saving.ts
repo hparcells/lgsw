@@ -33,7 +33,8 @@ export function toSaveFormat(): SaveFormat {
     modules: [],
     gridSize: state.gridSize,
     inHand: state.inHand,
-    mode: state.mode
+    mode: state.mode,
+    clipboard: state.clipboard
   };
 
   // Modules
@@ -54,7 +55,8 @@ export function loadSave(loadedSave: SaveFormat) {
     modules: [],
     gridSize: loadedSave.gridSize,
     inHand: loadedSave.inHand,
-    mode: loadedSave.mode
+    mode: loadedSave.mode,
+    clipboard: loadedSave.clipboard
   }
   
   // Modules

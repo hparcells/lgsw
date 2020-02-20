@@ -9,6 +9,7 @@ import getModuleFromString from '../utils/get-module';
 import { getMouseGridPos } from '../utils/mouse';
 import { updateModule } from './update';
 import { toSaveFormat, loadSave } from './saving';
+import { doClipboardInput } from './clipboard';
 
 import { MouseCoordinates, SaveModule } from '../types/types';
 
@@ -25,9 +26,11 @@ export default function doInput() {
   // Check for left pressed.
   if(mouse.leftPressed) {
     if(state.inHand.length > 0) {
-      if(!state.modules.find((module) => {
-        return module.x === mousePos.x && module.y === mousePos.y;
-      })) {
+      if(!state.inHand.map((inHandModule) => {
+        return !!state.modules.find((module) => {
+          return module.x === inHandModule.x + mousePos.x && module.y === inHandModule.y + mousePos.y;
+        });
+      }).includes(true)) {
         let placementQueue: SaveModule[] = JSON.parse(JSON.stringify(state.inHand));
 
         const idMap: { [type: string]: string } = {};
@@ -86,7 +89,7 @@ export default function doInput() {
         return moudle.x === mousePos.x && moudle.y === mousePos.y;
       });
       interactedModule?.onClick();
-    }else if(state.mode === 'copy') {
+    }else if(['copy', 'cut', 'delete'].includes(state.mode)) {
       startDragPos.x = mousePos.x;
       startDragPos.y = mousePos.y;
     }
@@ -157,15 +160,6 @@ export default function doInput() {
       state.mode = 'normal';
     }else {
       state.mode = 'wiring';
-    }
-  }
-  if(keyboard.cPressed) {
-    state.inHand = [];
-
-    if(state.mode === 'copy') {
-      state.mode = 'normal';
-    }else {
-      state.mode = 'copy';
     }
   }
   // #endregion
@@ -399,4 +393,6 @@ export default function doInput() {
   // #endregion
 
   state.camera.wireOpacity = Math.round(state.camera.wireOpacity * 100) / 100;
+  
+  doClipboardInput();
 }

@@ -1,7 +1,6 @@
 import { mouse } from 'easy-web-input';
 
 import getModuleFromString from '../utils/get-module';
-import { toSaveModule } from './saving';
 
 import { state } from './logic';
 import { ctx, canvas } from './canvas';
@@ -67,7 +66,7 @@ export function renderCursor() {
       state.gridSize,
       state.gridSize
     );
-  }else if(state.mode === 'copy') {
+  }else if(state.mode === 'copy' || state.mode === 'cut' || state.mode === 'delete') {
     ctx.fillStyle = 'rgba(0, 255, 0, 0.25)';
 
     if(mouse.left) {
@@ -83,32 +82,6 @@ export function renderCursor() {
         state.gridSize,
         state.gridSize
       );
-    }
-
-    // TODO: Move this.
-    if(mouse.leftReleased) {
-      let reduceAmount = { x: 0, y: 0 };
-
-      state.modules.filter((module) => {
-        return module.x >= Math.min(startDragPos.x, mousePos.x)
-          && module.y >= Math.min(startDragPos.y, mousePos.y)
-          && module.x <= Math.max(startDragPos.x, mousePos.x)
-          && module.y <= Math.max(startDragPos.y, mousePos.y);
-      }).sort((a, b) => {
-        return a.x - b.x || a.y - b.y;
-      }).forEach((module, index) => {
-        if(index === 0) {
-          reduceAmount.x = module.x;
-          reduceAmount.y = module.y;
-        }
-
-        let saveModule = toSaveModule(module);
-        saveModule.x -= reduceAmount.x;
-        saveModule.y -= reduceAmount.y;
-
-        state.mode = 'normal';
-        state.inHand.push(saveModule);
-      });
     }
   }
 }
