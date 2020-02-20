@@ -2,47 +2,47 @@ import { mouse, keyboard } from 'easy-web-input';
 import { remove } from '@reverse/array';
 
 import { toSaveModule } from './saving';
+import { toggleMode } from '../utils/toggle-mode';
 
 import { state } from './logic';
 import { startDragPos, mousePos } from './input';
+import { canvas } from './canvas';
 
 export function doClipboardInput() {
   // Check for mode switching.
   if(keyboard.cPressed && keyboard.Control) {
-    state.inHand = [];
+    toggleMode('copy');
 
     if(state.mode === 'copy') {
-      state.mode = 'normal';
+      canvas.style.cursor = 'copy';
     }else {
-      state.mode = 'copy';
+      canvas.style.cursor = 'default';
     }
   }
   if(keyboard.xPressed && keyboard.Control) {
-    state.inHand = [];
-
-    if(state.mode === 'cut') {
-      state.mode = 'normal';
-    }else {
-      state.mode = 'cut';
-    }
+    toggleMode('cut');
   }
   if(keyboard.vPressed && keyboard.Control) {
+    state.mode = 'normal';
+    canvas.style.cursor = 'default';
     state.inHand = JSON.parse(JSON.stringify(state.clipboard));
   }
   if(keyboard.zPressed && keyboard.Control) {
-    state.inHand = [];
+    toggleMode('delete');
 
     if(state.mode === 'delete') {
-      state.mode = 'normal';
+      canvas.style.cursor = 'not-allowed';
     }else {
-      state.mode = 'delete';
+      canvas.style.cursor = 'default';
     }
   }
 
   // Check for copy and cut selection.
   if(['copy', 'cut', 'delete'].includes(state.mode)) {
     if(mouse.leftReleased) {
-      state.clipboard = [];
+      if(state.mode !== 'delete') {
+        state.clipboard = [];
+      }
 
       let reduceAmount = { x: 0, y: 0 };
   

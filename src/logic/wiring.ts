@@ -1,16 +1,29 @@
 import { remove } from '@reverse/array';
-import { mouse } from 'easy-web-input';
+import { mouse, keyboard } from 'easy-web-input';
 
 import { getMouseGridPos } from '../utils/mouse';
 import { updateModule } from './update';
+import { toggleMode } from '../utils/toggle-mode';
 
 import { state } from './logic';
 import { mousePos } from './input';
-import { ctx } from './canvas';
+import { ctx, canvas } from './canvas';
 
 let startClick = { x: 0, y: 0 };
 
 export function checkWiring() {
+  if(keyboard.ePressed) {
+    state.inHand = [];
+
+    toggleMode('wiring');
+
+    if(state.mode === 'wiring') {
+      canvas.style.cursor = 'crosshair';
+    }else {
+      canvas.style.cursor = 'default';
+    }
+  }
+
   if(mouse.leftPressed) {
     startClick.x = mouse.x;
     startClick.y = mouse.y;

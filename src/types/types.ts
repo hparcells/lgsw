@@ -2,7 +2,7 @@ import Module from './Module';
 
 /** All the modules. */
 export type ModuleType = 'switch' | 'button' | 'clock' | 'lamp' | 'and' | 'nand' | 'or' | 'nor' | 'not' | 'xor' | 'xnor';
-type ModeOption = 'normal' | 'wiring' | 'copy' | 'cut' | 'delete';
+export type ModeOption = 'normal' | 'wiring' | 'copy' | 'cut' | 'delete';
 
 /** Version for loading and saving. */
 type SaveVersion = 1;

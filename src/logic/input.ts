@@ -14,6 +14,7 @@ import { doClipboardInput } from './clipboard';
 import { MouseCoordinates, SaveModule } from '../types/types';
 
 import { state } from './logic';
+import { canvas } from './canvas';
 
 export let mousePos: MouseCoordinates;
 
@@ -23,14 +24,26 @@ export const startDragCameraPos: MouseCoordinates = { x: 0, y: 0 };
 export default function doInput() {
   mousePos = getMouseGridPos();
 
+  let canPlace;
+
+  if(state.inHand.length > 0) {
+    canPlace = !state.inHand.map((inHandModule) => {
+      return !!state.modules.find((module) => {
+        return module.x === inHandModule.x + mousePos.x && module.y === inHandModule.y + mousePos.y;
+      });
+    }).includes(true);
+
+    if(canPlace) {
+      canvas.style.cursor = 'default';
+    }else {
+      canvas.style.cursor = 'not-allowed';
+    }
+  }
+  
   // Check for left pressed.
   if(mouse.leftPressed) {
     if(state.inHand.length > 0) {
-      if(!state.inHand.map((inHandModule) => {
-        return !!state.modules.find((module) => {
-          return module.x === inHandModule.x + mousePos.x && module.y === inHandModule.y + mousePos.y;
-        });
-      }).includes(true)) {
+      if(canPlace) {
         let placementQueue: SaveModule[] = JSON.parse(JSON.stringify(state.inHand));
 
         const idMap: { [type: string]: string } = {};
@@ -150,19 +163,6 @@ export default function doInput() {
 
     state.mode = 'normal';
   }
-
-  // #region Mode Toggling
-  // Check for wire input.
-  if(keyboard.ePressed) {
-    state.inHand = [];
-
-    if(state.mode === 'wiring') {
-      state.mode = 'normal';
-    }else {
-      state.mode = 'wiring';
-    }
-  }
-  // #endregion
 
   // #region Module Hotkeys
   if(keyboard.BackquotePressed) {
@@ -344,6 +344,11 @@ export default function doInput() {
 
     startDragCameraPos.x = state.camera.x;
     startDragCameraPos.y = state.camera.y;
+
+    canvas.style.cursor = 'grabbing';
+  }
+  if(mouse.middleReleased) {
+    canvas.style.cursor = 'default';
   }
   if(mouse.middle) {
     state.camera.x = startDragCameraPos.x + ((startDragPos.x - mouse.x) / (state.gridSize * state.camera.scale));

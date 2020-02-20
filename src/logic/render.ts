@@ -67,7 +67,11 @@ export function renderCursor() {
       state.gridSize
     );
   }else if(state.mode === 'copy' || state.mode === 'cut' || state.mode === 'delete') {
-    ctx.fillStyle = 'rgba(0, 255, 0, 0.25)';
+    if(state.mode === 'delete') {
+      ctx.fillStyle = 'rgba(255, 0, 0, 0.25)';
+    }else {
+      ctx.fillStyle = 'rgba(0, 255, 0, 0.25)';
+    }
 
     if(mouse.left) {
       ctx.fillRect(

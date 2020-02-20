@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Alpha [2020-02-15 - Present]
+### [1.0.0-alpha.7] - 2020-02-20
+#### Additions
+- Even more cursor styles.
+- Delete tool selection area will now be red.
+
+#### Fixes
+- Exiting delete mode actually removes you from delete mode.
+- Using the delete tool no longer clears your clipboard.
+
+### Known Issues
+- Connecting three NOT gates together won't work as expected.
+- Cuting a selection will randomize the IDs on paste.
+- Switches that are on will not be displayed as on when in your hand.
+
 ### [1.0.0-alpha.6] - 2020-02-20
 ### Additions
 - Copying. Press `Ctrl + C` to copy a selection. Then press `Ctrl + V` to recall it.
@@ -15,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Connecting three NOT gates together won't work as expected.
 - Cuting a selection will randomize the IDs on paste.
 - Switches that are on will not be displayed as on when in your hand.
+- Using the delete tool copies the area to your clipboard.
+- Deleting a selection and placing something keeps you in delete mode.
 
 ### [1.0.0-alpha.5] - 2020-02-17
 #### Additions
