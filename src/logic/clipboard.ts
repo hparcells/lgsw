@@ -65,41 +65,46 @@ export function doClipboardInput() {
   // Check for copy and cut selection.
   if(['copy', 'cut', 'delete'].includes(state.mode)) {
     if(mouse.leftReleased) {
-      if(state.mode !== 'delete') {
-        state.clipboard = [];
-      }
-
-      let reduceAmount = { x: 0, y: 0 };
-  
-      state.modules.filter((module) => {
+      
+      const affectedModules = state.modules.filter((module) => {
         return module.x >= Math.min(startDragPos.x, mousePos.x)
           && module.y >= Math.min(startDragPos.y, mousePos.y)
           && module.x <= Math.max(startDragPos.x, mousePos.x)
           && module.y <= Math.max(startDragPos.y, mousePos.y);
       }).sort((a, b) => {
         return a.x - b.x || a.y - b.y;
-      }).forEach((module, index) => {
-        if(index === 0) {
-          reduceAmount.x = module.x;
-          reduceAmount.y = module.y;
+      });
+        
+      if(affectedModules.length > 0) {
+        let reduceAmount = { x: 0, y: 0 };
+
+        if(state.mode !== 'delete') {
+          state.clipboard = [];
         }
+
+        affectedModules.forEach((module, index) => {
+          if(index === 0) {
+            reduceAmount.x = module.x;
+            reduceAmount.y = module.y;
+          }
+    
+          let saveModule = toSaveModule(module);
+          saveModule.x -= reduceAmount.x;
+          saveModule.y -= reduceAmount.y;
+    
+          if(state.mode !== 'delete') {
+            state.clipboard.push(saveModule);
+          }
   
-        let saveModule = toSaveModule(module);
-        saveModule.x -= reduceAmount.x;
-        saveModule.y -= reduceAmount.y;
+          if(state.mode === 'cut' || state.mode === 'delete') {
+            state.modules = remove(state.modules, module);
+          }
+        });
   
         if(state.mode !== 'delete') {
-          state.clipboard.push(saveModule);
+          state.inHand = JSON.parse(JSON.stringify(state.clipboard));
+          state.mode = 'normal';
         }
-
-        if(state.mode === 'cut' || state.mode === 'delete') {
-          state.modules = remove(state.modules, module);
-        }
-      });
-
-      if(state.mode !== 'delete') {
-        state.inHand = JSON.parse(JSON.stringify(state.clipboard));
-        state.mode = 'normal';
       }
     }
   }

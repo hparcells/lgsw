@@ -5,12 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Alpha [2020-02-15 - Present]
-### [1.0.0-alpha.7] - 2020-02-20
+### [1.0.0-alpha.7] - 2020-02-21
 #### Additions
 - Even more cursor styles.
 - Delete tool selection area will now be red.
 - Ability to rotate in-hand modules. Press `R` to rotate clockwise and `Shift + R` to rotate counter-clockwise.
 - Added icons.
+
+#### Changed
+- Selection now fills the entire area instead of the two corners.
 
 #### Fixes
 - Exiting delete mode actually removes you from delete mode.
@@ -18,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Known Issues
 - Connecting three NOT gates together won't work as expected.
-- Cuting a selection will randomize the IDs on paste.
+- Cutting a selection will randomize the IDs on paste.
 - Switches that are on will not be displayed as on when in your hand.
 
 ### [1.0.0-alpha.6] - 2020-02-20

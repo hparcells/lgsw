@@ -75,16 +75,10 @@ export function renderCursor() {
 
     if(mouse.left) {
       ctx.fillRect(
-        startDragPos.x * state.gridSize,
-        startDragPos.y * state.gridSize,
-        state.gridSize,
-        state.gridSize
-      );
-      ctx.fillRect(
-        mousePos.x * state.gridSize,
-        mousePos.y * state.gridSize,
-        state.gridSize,
-        state.gridSize
+        Math.min(startDragPos.x, mousePos.x) * state.gridSize,
+        Math.min(startDragPos.y, mousePos.y) * state.gridSize,
+        ((Math.max(startDragPos.x, mousePos.x) - Math.min(startDragPos.x, mousePos.x)) * state.gridSize) + state.gridSize,
+        ((Math.max(startDragPos.y, mousePos.y) - Math.min(startDragPos.y, mousePos.y)) * state.gridSize) + state.gridSize,
       );
     }
   }
