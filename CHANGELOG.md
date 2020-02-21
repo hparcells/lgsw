@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Additions
 - Even more cursor styles.
 - Delete tool selection area will now be red.
+- Ability to rotate in-hand modules. Press `R` to rotate clockwise and `Shift + R` to rotate counter-clockwise.
+- Added icons.
 
 #### Fixes
 - Exiting delete mode actually removes you from delete mode.

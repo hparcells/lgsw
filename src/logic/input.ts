@@ -141,6 +141,7 @@ export default function doInput() {
 
   // Check for deselect input.
   if(keyboard.qPressed) {
+    canvas.style.cursor = 'default';
     if(state.inHand.length > 0) {
       state.inHand = [];
     }else {

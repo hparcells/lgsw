@@ -37,6 +37,31 @@ export function doClipboardInput() {
     }
   }
 
+  // Check for transformations.
+  if(state.inHand.length > 1) {
+    if(keyboard.rPressed && keyboard.Shift) {
+      state.inHand.forEach((module) => {
+        const startingX = module.x;
+        const startingY = module.y;
+
+        module.x = startingY;
+        module.y = -startingX;
+
+        return;
+      });
+    }else if(keyboard.rPressed) {
+      state.inHand.forEach((module) => {
+        const startingX = module.x;
+        const startingY = module.y;
+
+        module.x = -startingY;
+        module.y = startingX;
+
+        return;
+      });
+    }
+  }
+
   // Check for copy and cut selection.
   if(['copy', 'cut', 'delete'].includes(state.mode)) {
     if(mouse.leftReleased) {
