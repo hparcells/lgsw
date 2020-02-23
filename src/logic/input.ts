@@ -8,8 +8,8 @@ import uuid from 'uuid';
 import getModuleFromString from '../utils/get-module';
 import { getMouseGridPos } from '../utils/mouse';
 import { updateModule } from './update';
-import { toSaveFormat, loadSave } from './saving';
-import { doClipboardInput } from './clipboard';
+import { getSaveFormat, loadSave } from './saving';
+import { checkClipboardInput } from './clipboard';
 
 import { MouseCoordinates, SaveModule } from '../types/types';
 
@@ -327,14 +327,17 @@ export default function doInput() {
         
         return;
       }
+    }else {
+      window.alert('Inputted save is not parsable. If you feel this is wrong open an issue at https://github.com/hparcells/lgsw/issues/.\n\nError Code: 1.');
     }
 
-    window.alert('Inputted save is not parsable. If you feel this is wrong open an issue at https://github.com/hparcells/lgsw/issues/.\n\nError Code: 1.');
   }
   if(keyboard.oPressed) {
-    const save = new Blob([window.btoa(JSON.stringify(toSaveFormat()))], { type: 'text/plain;charset=utf-8' });
-
-    saveAs(save, `lgsw-${new Date().toISOString()}.txt`);
+    if(state.inHand.length <= 1) {
+      const save = new Blob([window.btoa(JSON.stringify(getSaveFormat()))], { type: 'text/plain;charset=utf-8' });
+  
+      saveAs(save, `lgsw-${new Date().toISOString()}.txt`);
+    }
   }
   // #endregion
 
@@ -400,5 +403,5 @@ export default function doInput() {
 
   state.camera.wireOpacity = Math.round(state.camera.wireOpacity * 100) / 100;
   
-  doClipboardInput();
+  checkClipboardInput();
 }

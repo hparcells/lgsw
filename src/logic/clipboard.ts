@@ -1,14 +1,17 @@
 import { mouse, keyboard } from 'easy-web-input';
 import { remove } from '@reverse/array';
+import { saveAs } from 'file-saver';
 
 import { toSaveModule } from './saving';
 import { toggleMode } from '../utils/toggle-mode';
+
+import { Schematic } from '../types/types';
 
 import { state } from './logic';
 import { startDragPos, mousePos } from './input';
 import { canvas } from './canvas';
 
-export function doClipboardInput() {
+export function checkClipboardInput() {
   // Check for mode switching.
   if(keyboard.cPressed && keyboard.Control) {
     toggleMode('copy');
@@ -39,6 +42,7 @@ export function doClipboardInput() {
 
   // Check for transformations.
   if(state.inHand.length > 1) {
+    // Rotation.
     if(keyboard.rPressed && keyboard.Shift) {
       state.inHand.forEach((module) => {
         const startingX = module.x;
@@ -60,12 +64,30 @@ export function doClipboardInput() {
         return;
       });
     }
+
+    // Schematic output.
+    if(keyboard.oPressed) {
+      if(state.inHand.length > 1) {
+        const author = window.prompt('Enter an author name for this schematic.', 'Anonymous');
+  
+        if(!author) {
+          return;
+        }
+  
+        const schematic: Schematic = {
+          author,
+          modules: state.inHand
+        }
+        const save = new Blob([window.btoa(JSON.stringify(schematic))], { type: 'text/plain;charset=utf-8' });
+  
+        saveAs(save, `lgsw-schematic-${new Date().toISOString()}.txt`);
+      }
+    }
   }
 
   // Check for copy and cut selection.
   if(['copy', 'cut', 'delete'].includes(state.mode)) {
     if(mouse.leftReleased) {
-      
       const affectedModules = state.modules.filter((module) => {
         return module.x >= Math.min(startDragPos.x, mousePos.x)
           && module.y >= Math.min(startDragPos.y, mousePos.y)

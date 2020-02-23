@@ -3,6 +3,7 @@ import Module from './Module';
 /** All the modules. */
 export type ModuleType = 'switch' | 'button' | 'clock' | 'lamp' | 'and' | 'nand' | 'or' | 'nor' | 'not' | 'xor' | 'xnor';
 export type ModeOption = 'normal' | 'wiring' | 'copy' | 'cut' | 'delete';
+type SaveType = 'game' | 'schematic';
 
 /** Version for loading and saving. */
 type SaveVersion = 1;
@@ -73,4 +74,8 @@ export interface SaveFormat {
   inHand: SaveModule[];
   mode: ModeOption;
   clipboard: SaveModule[];
+}
+export interface Schematic  {
+  author: string;
+  modules: SaveModule[];
 }
