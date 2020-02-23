@@ -5,13 +5,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Alpha [2020-02-15 - Present]
+### [1.0.0-alpha.9] - 2020-02-23
+#### Fixes
+- Actually made error message not show up when canceling a save import. 
+
+#### Known Issues
+- Connecting three NOT gates together won't work as expected.
+- Cutting a selection will randomize the IDs on paste.
+- Switches that are on will not be displayed as on when in your hand.
+
 ### [1.0.0-alpha.8] - 2020-02-23
-### Additions
+#### Additions
 - Schematics. Press `O` when holding multiple modules to export a schematic to be loaded and added to any save. Press `I` to load a schematic.
 
-### Fixes
+#### Fixes
 - Error message no longer shows when canceling loading a save.
 - Fixed saves not being able to be loaded.
+
+#### Known Issues
+- Connecting three NOT gates together won't work as expected.
+- Cutting a selection will randomize the IDs on paste.
+- Switches that are on will not be displayed as on when in your hand.
 
 ### [1.0.0-alpha.7] - 2020-02-21
 #### Additions

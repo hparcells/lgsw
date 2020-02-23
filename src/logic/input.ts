@@ -319,16 +319,18 @@ export default function doInput() {
   if(keyboard.iPressed) {
     const save = window.prompt('Paste below your save data.');
 
-    if(save && isBase64(save)) {
-      const decoded = window.atob(save);
-
-      if(isJSON(decoded)) {
-        loadSave(JSON.parse(decoded));
-        
-        return;
+    if(save) {
+      if(isBase64(save)) {
+        const decoded = window.atob(save);
+  
+        if(isJSON(decoded)) {
+          loadSave(JSON.parse(decoded));
+          
+          return;
+        }
+      }else {
+        window.alert('Inputted save is not parsable. If you feel this is wrong open an issue at https://github.com/hparcells/lgsw/issues/.\n\nError Code: 1.');
       }
-    }else {
-      window.alert('Inputted save is not parsable. If you feel this is wrong open an issue at https://github.com/hparcells/lgsw/issues/.\n\nError Code: 1.');
     }
 
   }
