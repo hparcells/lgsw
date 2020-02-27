@@ -5,7 +5,7 @@ import { GameState } from '../types/types';
 import doInput from './input';
 import { cleanCanvas, renderCursor, renderGrid, renderObjects, renderOverlay } from './render';
 import { checkWiring, renderWiring, renderWireAction } from './wiring';
-import { renderDebugOverlay, setRStart } from './debug';
+// import { setRStart } from './debug';
 import { updatePendingModules } from './update';
 
 import { ctx, canvas } from './canvas';
@@ -34,7 +34,7 @@ export function gameLoop() {
 
   doInput();
   
-  setRStart(performance.now());
+  // setRStart(performance.now());
   
   cleanCanvas();
   
@@ -62,9 +62,6 @@ export function gameLoop() {
 
   renderOverlay();
   
-  // Debug
-  renderDebugOverlay();
-
   // Update input.
   inputManagerEndFrame();  
   

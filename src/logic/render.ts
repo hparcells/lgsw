@@ -1,6 +1,7 @@
 import { mouse } from 'easy-web-input';
 
 import getModuleFromString from '../utils/get-module';
+import { renderDebugOverlay } from './debug';
 
 import { state } from './logic';
 import { ctx, canvas } from './canvas';
@@ -99,4 +100,6 @@ export function renderOverlay() {
   ctx.textBaseline = 'bottom';
 
   ctx.fillText(`v${version}`, 3, canvas.height);
+
+  // renderDebugOverlay();
 }

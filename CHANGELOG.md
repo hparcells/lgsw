@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Release
+### [1.0.0] - 2020-02-27
+#### Added
+- Initial public release.
+
+#### Known Issues
+- Connecting three NOT gates together won't work as expected.
+- Cutting a selection will randomize the IDs on paste.
+- Switches that are on will not be displayed as on when in your hand.
+
 ## Alpha [2020-02-15 - Present]
 ### [1.0.0-alpha.9] - 2020-02-23
 #### Fixes
